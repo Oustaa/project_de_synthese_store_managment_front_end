@@ -71,7 +71,8 @@ export const StyledActions = styled.div`
   gap: var(--spacing-xl);
   align-items: center;
 
-  button {
+  button,
+  a {
     color: var(--white);
     border: none;
     background-color: transparent;

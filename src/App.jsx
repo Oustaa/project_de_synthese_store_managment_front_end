@@ -8,10 +8,11 @@ import Products from "./pages/Products";
 import Store from "./pages/Store";
 
 import StoreCom from "./pages/store.com/Store";
-import CreateStore from "./pages/store.com/CreateStore";
+import CreateStore from "./pages/store.com/create";
 import CreateProduct from "./pages/store.com/CreateProduct";
 
 import Layout from "./components/Layout/Layout";
+import StoreLayout from "./components/store/Layout/Layout";
 
 import GlobalStyles from "./styles/globalStyles";
 

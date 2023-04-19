@@ -1,22 +1,9 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-import styled from "styled-components";
-
-const StyledProducts = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-block: var(--spacing-xxl);
-
-  header {
-    margin-bottom: var(--spacing-lg);
-  }
-`;
-
-const StyledProductsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-lg);
-`;
+import {
+  StyledProducts,
+  StyledProductsContainer,
+} from "../../styles/styled-product";
 
 const products = [
   {

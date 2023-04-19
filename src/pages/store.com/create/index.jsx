@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import StoreName from "./StoreName";
+import StoreEmailPhone from "./StoreEmail";
+import StoreImages from "./StoreImages";
+import StorePassword from "./StorePassword";
+
 import {
   InputGroup,
   StyledContainer,
+  StyledButton,
   FlexContainer,
 } from "../../../styles/index";
 import { StyledLinks, StyledNav } from "../../../styles/styled-header";
@@ -22,113 +28,101 @@ const StyledForm = styled.form`
   width: 40%;
 `;
 
-const StyledStorePreviewContainer = styled.div`
-  width: 60%;
-`;
-
-const StyledStorePreview = styled.div`
-  width: 100%;
-  height: 100%;
-
-  .bg-image {
-    background-color: var(--dark-100);
-    width: 100%;
-    aspect-ratio: 1/0.3;
-
-    img {
-      width: 100%;
-      aspect-ratio: 1/0.3;
-      object-fit: cover;
-    }
-  }
-`;
-
-const StyledPreviewHeader = styled.header`
-  background-color: var(--dark-700);
+// styled
+const StyledCreationHeaderFooter = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  color: var(--white);
-  padding-left: var(--spacing-xxl);
-  h3 {
-    font-weight: 300;
+  justify-content: ${({ end }) => (end ? "flex-end" : "space-between")};
+  padding-block: var(--spacing-xl);
+  color: var(--dark-800);
+  h1,
+  h2 {
+    font-size: 1.3rem;
   }
 `;
 
-const StyledAvatar = styled.div`
-  width: 50px;
-  aspect-ratio: 1 / 1;
-  background-color: var(--white);
-  overflow: hidden;
-  border-radius: 50%;
+const StyledCreateBody = styled.div`
+  height: 80vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
-    object-fit: fill;
+  & > div {
+    width: 100%;
+    max-width: 900px;
   }
 `;
 
+const Components = [StoreName, StoreEmailPhone, StorePassword, StoreImages];
+const titles = ["Name", "Email", "Password", "Images"];
+
 const CreateStore = () => {
-  const [storeInfo, setStoreInfo] = useState({
+  const [storeData, setStoreData] = useState({
     name: "",
     email: "",
+    email_verified: false,
     password: "",
-    password_cf: "",
     phone_number: "",
     avatar: "",
     bgImg: "",
   });
-  const [avatar, setAvatar] = useState("");
-  const [bgImg, setBgImg] = useState("");
+  const [step, setStep] = useState(0);
+  const [canContinue, setCanContinue] = useState(false);
+
+  const RendredComp = Components[step];
+
+  const nextHandler = () => {
+    if (!canContinue) return;
+    setStep((prev) => (prev += 1));
+    setCanContinue(false);
+  };
+  const prevHandler = () => {
+    setStep((prev) => (prev -= 1));
+  };
 
   const changeHandler = (e) => {
     const name = e.target.name;
 
-    setStoreInfo((prev) => {
+    setStoreData((prev) => {
       return { ...prev, [name]: e.target.value };
     });
   };
 
-  const avatarChnageHnadler = (e) => {
-    setAvatar(URL.createObjectURL(e.target.files[0]));
-    setStoreInfo((prev) => {
-      return { ...prev, avatar: e.target.files[0] };
+  const imageChnageHandler = (e) => {
+    const name = e.target.name;
+
+    setStoreData((prev) => {
+      return { ...prev, [name]: e.target.files[0] };
     });
   };
 
-  const bgImageChnageHnadler = (e) => {
-    setBgImg(URL.createObjectURL(e.target.files[0]));
-    setStoreInfo((prev) => {
-      return { ...prev, bgImg: e.target.files[0] };
-    });
-  };
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
+  const createStore = async () => {
     const formData = new FormData();
 
-    formData.append("avatar", storeInfo.avatar);
-    // formData.append("file", storeInfo.bgImg);
-    formData.append("name", storeInfo.name);
-    formData.append("email", storeInfo.email);
-    formData.append("password", storeInfo.password);
-    formData.append("phone_number", storeInfo.phone_number);
+    formData.append("avatar", storeData.avatar);
+    formData.append("bg_image", storeData.bgImg);
+    formData.append("name", storeData.name);
+    formData.append("email", storeData.email);
+    formData.append("password", storeData.password);
+    formData.append("phone_number", storeData.phone_number);
+    formData.append("email_verified", storeData.email_verified);
 
-    const respons = await fetch(`${process.env.REACT_APP_BASE_URL}/stores`, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      params: {
-        name: storeInfo.name,
-        email: storeInfo.email,
-        password: storeInfo.password,
-        phone_number: storeInfo.phone_number,
-      },
-    });
+    const respons = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/stores`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+        params: {
+          name: storeData.name,
+          email: storeData.email,
+          password: storeData.password,
+          phone_number: "0641567728",
+        },
+      }
+    );
 
     const responseData = await respons.json();
 
@@ -137,103 +131,37 @@ const CreateStore = () => {
 
   return (
     <StyledContainer>
-      <StyledLogInPage>
-        <StyledForm onSubmit={submitHandler}>
-          <h1>Create Your store</h1>
-          <InputGroup inline={true}>
-            <label htmlFor="name">Store Name:</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={storeInfo.name}
-              onChange={changeHandler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="email">Store Email:</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={storeInfo.email}
-              onChange={changeHandler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={storeInfo.password}
-              onChange={changeHandler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="password_cf">Confirm Password</label>
-            <input
-              type="password"
-              name="password_cf"
-              id="password_cf"
-              value={storeInfo.password_cf}
-              onChange={changeHandler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="phone_number">Phone Number</label>
-            <input
-              type="phone"
-              name="phone_number"
-              id="phone_number"
-              value={storeInfo.phone_number}
-              onChange={changeHandler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="avatar">Store logo:</label>
-            <input
-              type="file"
-              name="avatar"
-              id="avatar"
-              onChange={avatarChnageHnadler}
-            />
-          </InputGroup>
-          <InputGroup inline={true}>
-            <label htmlFor="bg_image">Background Image:</label>
-            <input
-              type="file"
-              name="bg_image"
-              id="bg_image"
-              onChange={bgImageChnageHnadler}
-            />
-          </InputGroup>
-          <button type="submit">Create</button>
-        </StyledForm>
-        <StyledStorePreviewContainer>
-          <h1>Your Store Preview:</h1>
-          <StyledStorePreview>
-            <div className="bg-image">
-              <img src={bgImg} alt="" />
-            </div>
-            <StyledPreviewHeader>
-              <FlexContainer>
-                <StyledAvatar>
-                  <img src={avatar} alt="" />
-                </StyledAvatar>
-                <h3>{storeInfo.name || "Your store name"}</h3>
-              </FlexContainer>
-              <StyledNav>
-                <StyledLinks>
-                  <Link to="/">Home</Link>
-                  <Link to="/">DashBoard</Link>
-                  <Link to="/">Orders</Link>
-                </StyledLinks>
-              </StyledNav>
-            </StyledPreviewHeader>
-          </StyledStorePreview>
-        </StyledStorePreviewContainer>
-      </StyledLogInPage>
+      <StyledCreationHeaderFooter>
+        <h1>Create Store</h1>
+        <h2>{titles[step]}</h2>
+      </StyledCreationHeaderFooter>
+      <StyledCreateBody>
+        {
+          <RendredComp
+            setCanContinue={setCanContinue}
+            changeHandler={changeHandler}
+            imageChnageHandler={imageChnageHandler}
+            data={storeData}
+          />
+        }
+      </StyledCreateBody>
+      <StyledCreationHeaderFooter end={step === 0}>
+        {step !== 0 && (
+          <StyledButton onClick={prevHandler} bgColor="var(--dark-500)">
+            Prev
+          </StyledButton>
+        )}
+        {step === 3 ? (
+          <StyledButton onClick={createStore}>Create</StyledButton>
+        ) : (
+          <StyledButton
+            bgColor={!canContinue ? "var(--dark-500)" : "var(--primary-dark)"}
+            onClick={nextHandler}
+          >
+            Next
+          </StyledButton>
+        )}
+      </StyledCreationHeaderFooter>
     </StyledContainer>
   );
 };

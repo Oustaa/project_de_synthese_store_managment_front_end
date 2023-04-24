@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/auth-slice";
 import styled from "styled-components";
 import StoreName from "./StoreName";
@@ -10,6 +10,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { StyledContainer, StyledButton } from "../../styles";
 import axios from "axios";
+import { useEffect } from "react";
 
 const StyledCreationHeaderFooter = styled.header`
   display: flex;
@@ -52,6 +53,12 @@ const CreateStore = () => {
   const [step, setStep] = useState(0);
   const [canContinue, setCanContinue] = useState(false);
 
+  let { token, name } = useSelector((state) => state.auth);
+  if (!token && !name) {
+    token = localStorage.getItem("token");
+    name = localStorage.getItem("storename");
+  }
+
   const RendredComp = Components[step];
 
   const nextHandler = () => {
@@ -59,6 +66,7 @@ const CreateStore = () => {
     setStep((prev) => (prev += 1));
     // setCanContinue(false);
   };
+
   const prevHandler = () => {
     setStep((prev) => (prev -= 1));
   };
@@ -108,6 +116,11 @@ const CreateStore = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    dispatch(login({ name, token }));
+    if (name && token) navigate("/");
+  }, [name, token, navigate, dispatch]);
 
   return (
     <StyledContainer>

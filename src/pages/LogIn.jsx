@@ -33,7 +33,11 @@ const StyledForm = styled.form`
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { name, token } = useSelector((state) => state.auth);
+  let { token, name } = useSelector((state) => state.auth);
+  if (!token && !name) {
+    token = localStorage.getItem("token");
+    name = localStorage.getItem("storename");
+  }
   const [storeInfo, setStoreInfo] = useState({
     password: "",
     password_valid: true,
@@ -50,6 +54,8 @@ const LogIn = () => {
     });
   };
 
+  useEffect(() => {}, []);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -61,6 +67,8 @@ const LogIn = () => {
 
       const data = await respons.data;
       if (data.accessToken && data.name) {
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("storename", data.name);
         dispatch(login({ token: data.accessToken, name: data.name }));
         return navigate("/");
       }
@@ -81,8 +89,9 @@ const LogIn = () => {
   };
 
   useEffect(() => {
+    dispatch(login({ name, token }));
     if (name && token) navigate("/");
-  }, [name, token, navigate]);
+  }, [name, token, navigate, dispatch]);
 
   return (
     <StyledContainer>

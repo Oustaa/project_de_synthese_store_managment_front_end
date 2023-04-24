@@ -8,7 +8,6 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        <h1>Layout</h1>
         <Outlet />
       </main>
       <Footer />

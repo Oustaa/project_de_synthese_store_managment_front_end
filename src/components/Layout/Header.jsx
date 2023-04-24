@@ -2,20 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { FlexContainer, StyledButton } from "../../styles";
 import { BiUpload } from "react-icons/bi";
-import { StyledLinks, StyledNav } from "../../styles/styled-header";
+import { StyledLinks } from "../../styles/styled-header";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-const StyledStorePreview = styled.div`
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../features/auth-slice";
+const StyledHeader = styled.header`
   width: 100%;
 `;
 
-const StyledBgimage = styled.div`
+const StyledBgimageContainer = styled.div`
   background-color: var(--dark-100);
   width: 100%;
   aspect-ratio: 1/0.2;
   position: relative;
-  max-height: 300px;
+  // max-height: 300px;
   input {
     position: absolute;
     inset: 0 0 0 0;
@@ -47,7 +47,7 @@ const StyledBgimage = styled.div`
   }
 `;
 
-const StyledPreviewHeader = styled.header`
+const StyledNav = styled.div`
   background-color: var(--dark-700);
   display: flex;
   align-items: center;
@@ -100,22 +100,28 @@ const StyledAvatar = styled.div`
 `;
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { name } = useSelector((state) => state.auth);
 
+  const logOutHAndler = () => {
+    dispatch(logout());
+    localStorage.clear();
+  };
+
   return (
-    <StyledStorePreview>
-      <StyledBgimage>
+    <StyledHeader>
+      <StyledBgimageContainer>
         <img
           src={`${process.env.REACT_APP_BASE_URL}/images/bg-image-size.jpg`}
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
           alt=""
         />
         <input type="file" accept="image/*" name="bgImg" />
         <StyledButton bgColor="var(--white)" color="var(--dark-800)">
-          <Header />
+          <BiUpload />
         </StyledButton>
-      </StyledBgimage>
-      <StyledPreviewHeader>
+      </StyledBgimageContainer>
+      <StyledNav>
         <FlexContainer>
           <StyledAvatar>
             <img src={""} alt="" />
@@ -128,14 +134,14 @@ const Header = () => {
         </FlexContainer>
         <StyledNav>
           <StyledLinks>
-            <Link to="">Home</Link>
-            <Link to="dashboard">DashBoard</Link>
-            <Link to="orders">Orders</Link>
-            <button to="orders">Log out</button>
+            <Link to="/">Home</Link>
+            <Link to="/products">Products</Link>
+            <Link to="/orders">Orders</Link>
+            <button onClick={logOutHAndler}>Log out</button>
           </StyledLinks>
         </StyledNav>
-      </StyledPreviewHeader>
-    </StyledStorePreview>
+      </StyledNav>
+    </StyledHeader>
   );
 };
 

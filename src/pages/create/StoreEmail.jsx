@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { StyledButton, StyledBigInput } from "../../../styles";
+import { StyledButton, StyledInputGroup } from "../../styles";
 import { useEffect } from "react";
 
 async function sendEmailCode(email, privateKey) {
@@ -58,7 +58,7 @@ const StoreEmailPhone = ({ setCanContinue, data, changeHandler }) => {
     if (!code) {
       const codeRundem = await sendEmailCode(
         email,
-        process.env.REACT_APP_SEND_GRID_X_KEY
+        process.env.REACT_APP_RAPID_API_X_KEY
       );
       setCode(codeRundem);
       return;
@@ -71,23 +71,31 @@ const StoreEmailPhone = ({ setCanContinue, data, changeHandler }) => {
 
   return (
     <div>
-      <h3>Enter Your Email</h3>
-      <StyledBigInput
-        name="email"
-        type="email"
-        value={data.email}
-        onChange={handelChange}
-      />
-      {code && (
-        <>
+      <StyledInputGroup>
+        <label htmlFor="email">
           <h3>Enter Your Email</h3>
-          <StyledBigInput
+        </label>
+        <input
+          name="email"
+          id="email"
+          type="email"
+          value={data.email}
+          onChange={handelChange}
+        />
+      </StyledInputGroup>
+      {code && (
+        <StyledInputGroup>
+          <label htmlFor="email-conf">
+            <h3>Enter Your Email</h3>
+          </label>
+          <input
             name="verifyCode"
             type="email"
+            id="email-conf"
             value={verifyCode}
             onChange={(e) => setVerifyCode(e.target.value)}
           />
-        </>
+        </StyledInputGroup>
       )}
       <p>{error}</p>
       {!data.email_verified ? (

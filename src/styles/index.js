@@ -6,73 +6,6 @@ export const StyledContainer = styled.div`
   margin-inline: auto;
 `;
 
-export const InputGroup = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: ${({ inline }) => (!inline ? "column" : "row")};
-
-  margin-bottom: ${({ margin }) => (margin ? margin : "var(--spacing-sm)")};
-
-  & + & {
-    margin-top: var(--spacing-sm);
-  }
-
-  label {
-    width: ${({ inline }) => (!inline ? "100%" : "30%")};
-    min-width: ${({ inline }) => (!inline ? "100%" : "fit-content")};
-    margin-right: ${({ inline }) => (!inline ? "" : "var(--spacing-sm)")};
-    color: var(--dark-600);
-    text-transform: capitalize;
-    font-weight: 500;
-  }
-
-  input,
-  select {
-    background-color: var(--dark-600);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-xsm);
-    color: var(--white);
-    width: ${({ inline }) => (!inline ? "100%" : "70%")};
-
-    &::-webkit-input-placeholder {
-      color: var(--primary-dark-100);
-    }
-
-    &::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-    }
-  }
-  select option {
-    margin-block: var(--spacing-sm);
-    &:hover {
-      background-color: red;
-    }
-  }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  &.invalid {
-    label {
-      color: red;
-    }
-    input,
-    select {
-      outline: 1px solid red;
-      background-color: #ff000029;
-      color: var(--primary-dark-800);
-    }
-    p {
-      display: inline;
-      text-align: left;
-      font-size: 0.87rem;
-      color: red;
-    }
-  }
-`;
-
 export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
@@ -81,6 +14,9 @@ export const FlexContainer = styled.div`
 `;
 
 export const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--spacing-sm) var(--spacing-xl);
   background-color: ${({ bgColor }) =>
     bgColor ? bgColor : "var( --primary-dark) "};
@@ -89,10 +25,25 @@ export const StyledButton = styled.button`
   color: ${({ color }) => (color ? color : "var(--white)")};
 `;
 
-export const StyledBigInput = styled.input`
+export const StyledInputGroup = styled.div`
   width: 100%;
-  padding: var(--spacing-lg);
-  border: 1px solid var(--dark-800);
-  border-radius: var(--radius-lg);
-  margin-block: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  input {
+    width: 100%;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--dark-800);
+    border-radius: var(--radius-lg);
+    margin-block: var(--spacing-sm);
+  }
+
+  &.invalid {
+    label,
+    p {
+      color: var(--danger);
+    }
+    input {
+      border-color: var(--danger);
+      background-color: var(--danger-100);
+    }
+  }
 `;

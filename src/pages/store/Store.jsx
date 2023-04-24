@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { FlexContainer, StyledButton } from "../../styles";
 import { BiUpload } from "react-icons/bi";
 import { StyledLinks, StyledNav } from "../../styles/styled-header";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const StyledStorePreview = styled.div`
   width: 100%;
@@ -99,20 +100,24 @@ const StyledAvatar = styled.div`
   }
 `;
 
-const Header = () => {
+const Store = () => {
   const { name } = useSelector((state) => state.auth);
+
+  const [store, setStore] = useState({});
+
+  useEffect(() => {}, []);
 
   return (
     <StyledStorePreview>
       <StyledBgimage>
         <img
           src={`${process.env.REACT_APP_BASE_URL}/images/bg-image-size.jpg`}
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
           alt=""
         />
         <input type="file" accept="image/*" name="bgImg" />
         <StyledButton bgColor="var(--white)" color="var(--dark-800)">
-          <Header />
+          <BiUpload />
         </StyledButton>
       </StyledBgimage>
       <StyledPreviewHeader>
@@ -139,4 +144,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Store;

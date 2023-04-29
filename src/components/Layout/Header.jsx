@@ -6,6 +6,7 @@ import { StyledLinks } from "../../styles/styled-header";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features/auth-slice";
+
 const StyledHeader = styled.header`
   width: 100%;
 `;
@@ -53,7 +54,7 @@ const StyledNav = styled.div`
   align-items: center;
   justify-content: space-between;
   color: var(--white);
-  padding-left: var(--spacing-xxl);
+  padding-inline: var(--spacing-xxl);
   h3 {
     font-weight: 300;
   }

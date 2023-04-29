@@ -1,17 +1,27 @@
 import React from "react";
 import { Outlet } from "react-router-dom/dist";
-import Header from "./Header";
-import Footer from "./Footer";
+
+import Sidenav from "./sidenav/SideNav";
+
+import styled from "styled-components";
+
+const StyledLayout = styled.div`
+  display: flex;
+
+  main {
+    width: calc(100% - 300px);
+    margin-inline-start: var(--spacing-lg);
+  }
+`;
 
 const Layout = () => {
   return (
-    <>
-      <Header />
+    <StyledLayout>
+      <Sidenav />
       <main>
         <Outlet />
       </main>
-      <Footer />
-    </>
+    </StyledLayout>
   );
 };
 

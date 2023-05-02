@@ -1,40 +1,34 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 // components
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 
 // styled components
-import { StyledTableConainers, StyledTable } from "../../styles/styled-table";
+import {
+  StyledTableConainers,
+  StyledTable,
+  StyledTableHead,
+} from "../../styles/styled-table";
+import { StyledButton } from "../../styles/";
 
 const Table = ({
   headers,
   data,
-  width,
-  tableTitle,
-  filter,
   componentName,
-  alertTitle,
   id_name,
   endPoint,
   deletable,
 }) => {
   return (
-    <StyledTableConainers width={width}>
-      {/* <StyledTableHead>
+    <StyledTableConainers>
+      <StyledTableHead>
         <div>
-          <h4>{tableTitle}</h4>
-          <StyledButton color="var(--white)" bgColor="var(--primary-dark)">
-            Add
+          <StyledButton color="var(--white)" bgColor="var(--primary)">
+            <Link to={"/create/product"}>Add Product</Link>
           </StyledButton>
         </div>
-        {/* {filter ? (
-          <StyledButton onClick={openFilterAlertHandler} padding="var(--spacing-xsm)">
-            <span>Filters </span>
-            <MdFilterListAlt />
-          </StyledButton>
-        ) : null} }
-      </StyledTableHead> */}
+      </StyledTableHead>
       <StyledTable>
         <TableHeader headers={headers} />
         <TableBody

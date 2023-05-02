@@ -1,41 +1,37 @@
 import React from "react";
 
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
-import { StyledNavLinks } from "../../../styles/styled-sideNav";
-import { StyledButton } from "../../../styles/";
-import { logout } from "../../../features/auth-slice";
+import { StyledNavLinks, StyledNavLink } from "../../../styles/styled-sideNav";
+import {
+  BsHouse,
+  BsShop,
+  BsReverseListColumnsReverse,
+  BsGear,
+} from "react-icons/bs";
 
 function isActive({ isActive }) {
   return isActive ? "active" : "";
 }
 
 const links = [
-  { to: "/dashboard", text: "Dashboard" },
-  { to: "/products", text: "Products" },
-  { to: "/orders", text: "Orders" },
-  { to: "/setting", text: "Setting" },
+  { to: "/dashboard", text: "Dashboard", icon: <BsHouse /> },
+  { to: "/products", text: "Products", icon: <BsShop /> },
+  { to: "/orders", text: "Orders", icon: <BsReverseListColumnsReverse /> },
+  { to: "/setting", text: "Setting", icon: <BsGear /> },
 ];
 
 const SideNavLinks = () => {
-  const dispatch = useDispatch();
-
-  const logOutHandler = () => {
-    dispatch(logout());
-    localStorage.clear();
-  };
-
   return (
     <StyledNavLinks>
-      {links.map(({ to, text }, id) => (
+      {links.map(({ to, text, icon }, id) => (
         <NavLink key={id} className={isActive} to={to}>
-          {text}
+          <StyledNavLink>
+            {icon}
+            <span>{text}</span>
+          </StyledNavLink>
         </NavLink>
       ))}
-      <StyledButton onClick={logOutHandler} bg="">
-        log out
-      </StyledButton>
     </StyledNavLinks>
   );
 };

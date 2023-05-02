@@ -2,30 +2,6 @@ import styled from "styled-components";
 
 export const StyledTableConainers = styled.div`
   width: ${({ width }) => (width ? `${width}` : "100%")};
-  overflow-x: auto;
-  max-height: calc(100vh);
-  height: fit-content;
-
-  position: relative;
-  padding-right: var(--spacing-lg);
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background: var(--dark-200);
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--dark-500);
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-600);
-  }
-
-  & + & {
-    margin-left: var(--spacing-lg);
-  }
 `;
 
 export const StyledTableHead = styled.div`
@@ -33,19 +9,20 @@ export const StyledTableHead = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between !important;
-  gap: var(--spacing-lg);
+  background-color: var(--white);
+  // gap: var(--spacing-lg);
   margin-bottom: var(--spacing-sm);
   position: sticky;
   top: 0;
   left: 0;
   z-index: 10;
   background-color: var(--white);
-  padding: var(--spacing-sm);
+  padding-block: var(--spacing-sm);
   & > * {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: var(--spacing-sm);
+    // gap: var(--spacing-sm);
   }
 `;
 
@@ -64,7 +41,11 @@ export const StyledTable = styled.table`
 export const StyledTableHeader = styled.thead`
   background-color: var(--white);
   position: sticky;
-  top: 0;
+  top: 55px;
+  background-color: var(--primary);
+  & > * {
+    color: var(--white) !important;
+  }
 `;
 
 export const StyledTr = styled.tr`
@@ -75,7 +56,7 @@ export const StyledTr = styled.tr`
 `;
 
 export const StyledTh = styled.th`
-  color: var(--dark-800);
+  // color: var(--dark-800);
   padding: var(--spacing-lg) var(--spacing-sm);
   font-size: 0.9rem;
   font-weight: 300;

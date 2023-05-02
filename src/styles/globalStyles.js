@@ -19,7 +19,7 @@ const GlobalStyles = createGlobalStyle`
         --dark-300: #B5B5B5;
         --dark-200: #D2D2D2;
         --dark-100: #D9D9D9;
-        --dark-000: #DEDEDE;
+        --dark-000: #f5f5f5;
         --white: #FFFFFF;
 
         --radius-lg: 5px;
@@ -72,7 +72,8 @@ const GlobalStyles = createGlobalStyle`
         text-rendering: optimizeSpeed;
         line-height: 1.5;
         font-family: 'Raleway', sans-serif;
-        color: var(--dark-800)
+        color: var(--dark-800);
+        background-color: var(--dark-000);
     }
 
     // a:not([class]) {

@@ -9,7 +9,7 @@ const SideNavHeader = () => {
       {/* image logo */}
       {/* <img src="./images/logo-text.png" alt="payonix text logo" /> */}
       <h2>Logo</h2>
-      <StyledButton>
+      <StyledButton bgColor="transparent" color="var(--dark-800)">
         <BsLayoutSidebarInset />
       </StyledButton>
     </StyledHeader>

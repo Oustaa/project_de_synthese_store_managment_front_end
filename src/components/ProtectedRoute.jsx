@@ -6,17 +6,16 @@ import { useDispatch } from "react-redux";
 
 const ProtectedRoute = ({ to }) => {
   const dispatch = useDispatch();
-  let { token, name } = useSelector((state) => state.auth);
-  if (!token && !name) {
+  let { token } = useSelector((state) => state.auth);
+  if (!token) {
     token = localStorage.getItem("token");
-    name = localStorage.getItem("storename");
   }
 
   useEffect(() => {
-    dispatch(login({ name, token }));
-  }, [name, token, dispatch]);
+    dispatch(login({ token }));
+  }, [token, dispatch]);
 
-  return token && name ? (
+  return token ? (
     <>
       <Outlet />
     </>

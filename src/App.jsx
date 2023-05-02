@@ -7,6 +7,7 @@ import CreateProduct from "./pages/CreateProduct";
 import LogIn from "./pages/LogIn";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";
+import Setting from "./pages/Setting/Setting";
 import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SinglProductPage from "./pages/SinglProductPage";
@@ -25,6 +26,7 @@ const App = () => {
               <Route path="products" element={<Products />} />
               <Route path="products/:id" element={<SinglProductPage />} />
               <Route path="orders" element={<Orders />} />
+              <Route path="/setting" element={<Setting />} />
               <Route path="create/product" element={<CreateProduct />} />
             </Route>
           </Route>

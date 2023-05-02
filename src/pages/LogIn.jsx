@@ -33,10 +33,9 @@ const StyledForm = styled.form`
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let { token, name } = useSelector((state) => state.auth);
-  if (!token && !name) {
+  let { token } = useSelector((state) => state.auth);
+  if (!token) {
     token = localStorage.getItem("token");
-    name = localStorage.getItem("storename");
   }
   const [storeInfo, setStoreInfo] = useState({
     password: "",
@@ -68,8 +67,7 @@ const LogIn = () => {
       const data = await respons.data;
       if (data.accessToken && data.name) {
         localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("storename", data.name);
-        dispatch(login({ token: data.accessToken, name: data.name }));
+        dispatch(login({ token: data.accessToken }));
         return navigate("/");
       }
     } catch (error) {
@@ -89,9 +87,9 @@ const LogIn = () => {
   };
 
   useEffect(() => {
-    dispatch(login({ name, token }));
-    if (name && token) navigate("/");
-  }, [name, token, navigate, dispatch]);
+    dispatch(login({ token }));
+    if (token) navigate("/");
+  }, [token, navigate, dispatch]);
 
   return (
     <StyledContainer>

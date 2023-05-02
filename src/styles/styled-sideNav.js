@@ -53,10 +53,25 @@ export const StyledNavLinks = styled.div`
     &:hover,
     &:focus,
     &.active {
-      color: var(--primary-blue-800);
-      background-color: var(--primary-dark-100);
+      color: var(--primary-dark);
+      background-color: var(--dark-000);
       border-radius: var(--radius-sm);
       border: none !important;
     }
+  }
+`;
+
+export const StyledNavLink = styled.span`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+
+  span {
+    height: fit-content;
+    display: inline-block;
+  }
+
+  svg {
+    font-size: 1.7rem;
   }
 `;

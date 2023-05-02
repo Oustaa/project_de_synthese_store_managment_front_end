@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledTr, StyledTd } from "../../styles/styled-table";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ const StyledProductDisplay = styled.td`
 
 const TableRow = ({ data, fields, id, name }) => {
   const [showDetailed, setShowDetailed] = useState(false);
-  const navigate = useNavigate();
   const displayedValues = fields.map((field, i) => {
     if (field.type === "image")
       return (
@@ -48,9 +47,12 @@ const TableRow = ({ data, fields, id, name }) => {
   });
 
   const handelClick = () => {
-    // return navigate(`/products/${id}`);
     setShowDetailed(!showDetailed);
   };
+
+  useEffect(() => {
+    return setShowDetailed(false);
+  }, []);
 
   return (
     <>

@@ -11,7 +11,6 @@ const TableBody = ({ data, headers, endPoint, deletable, name }) => {
   return (
     <StyledTableBody>
       {data.map((data, i) => {
-        console.log(data);
         return (
           <TableRow
             endPoint={endPoint}

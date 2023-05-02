@@ -30,6 +30,20 @@ const Setting = () => {
   const store = useSelector((state) => state.store.store);
   const [password, setPassword] = useState({ value: "", correct: true });
 
+  const getLocationHandler = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const long = position.coords.longitude;
+
+      setStoreInfo((prev) => {
+        return {
+          ...prev,
+          location: { lat: lat.toFixed(2), long: long.toFixed(2) },
+        };
+      });
+    });
+  };
+
   const deleteAccountHandler = () => {
     alert("delete");
   };
@@ -67,7 +81,7 @@ const Setting = () => {
     }
   };
 
-  const enterPAsswordHandler = (e) => {
+  const enterPasswordHandler = (e) => {
     e.preventDefault();
     dispatch(openAlert());
   };
@@ -85,6 +99,11 @@ const Setting = () => {
     setStoreInfo((prev) => {
       return { ...prev, [name]: e.target.value };
     });
+  };
+
+  const cancelHandler = () => {
+    dispatch(closeAlert());
+    setPassword({ value: "", correct: true });
   };
 
   useEffect(() => {
@@ -113,7 +132,7 @@ const Setting = () => {
             <StyledButton>Confirm</StyledButton>
             <StyledButton
               type="button"
-              onClick={() => dispatch(closeAlert())}
+              onClick={cancelHandler}
               bgColor="var(--danger)"
             >
               Cancel
@@ -127,7 +146,7 @@ const Setting = () => {
           <h4>Change Store Logo Or Background Image:</h4>
           <Images />
         </StyledGroup>
-        <StyledForm onSubmit={enterPAsswordHandler}>
+        <StyledForm onSubmit={enterPasswordHandler}>
           <StyledInputGroup>
             <label htmlFor="storename">
               <h4>Store Name:</h4>
@@ -178,18 +197,27 @@ const Setting = () => {
               />
             </StyledInputGroup>
             <StyledInputGroup>
-              <label htmlFor="lang">
-                <h4>Lang:</h4>
+              <label htmlFor="long">
+                <h4>Long:</h4>
               </label>
               <input
                 type="text"
-                name="location.lang"
-                id="lang"
-                value={storeInfo.location?.lang}
+                name="location.long"
+                id="long"
+                value={storeInfo.location?.long}
                 readOnly={true}
               />
             </StyledInputGroup>
+            <StyledButton
+              type="button"
+              onClick={getLocationHandler}
+              bgColor="var(--warning-100)"
+              color="var(--dark-800)"
+            >
+              Get current location
+            </StyledButton>
           </FlexContainer>
+
           <StyledInputGroup>
             <label htmlFor="email">
               <h4>Email:</h4>
@@ -214,7 +242,7 @@ const Setting = () => {
               onChange={inputChangeHandler}
             />
           </StyledInputGroup>
-          <StyledInputGroup>
+          {/* <StyledInputGroup>
             <label htmlFor="password">
               <h4>Password:</h4>
             </label>
@@ -225,7 +253,7 @@ const Setting = () => {
               value={storeInfo?.password}
               onChange={inputChangeHandler}
             />
-          </StyledInputGroup>
+          </StyledInputGroup> */}
           <FlexContainer>
             <StyledButton>Save Chnages</StyledButton>
             <StyledButton

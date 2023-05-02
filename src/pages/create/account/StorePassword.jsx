@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyledInputGroup } from "../../styles";
+import { StyledInputGroup } from "../../../styles";
 
 const StorePassword = ({ setCanContinue, data, changeHandler }) => {
   const [password, setPassword] = useState("");

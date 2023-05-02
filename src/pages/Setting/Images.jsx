@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FlexContainer, StyledButton } from "../../styles";
-import { StyledLinks, StyledNav } from "../../styles/styled-header";
-import { Link } from "react-router-dom";
 import { BiUpload } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
@@ -104,7 +102,8 @@ const Images = () => {
   const [bgImg, setBgImg] = useState("");
 
   const changeBgImage = (e) => {
-    setBgImg(URL.createObjectURL(e.target.files[0]));
+    const formdata = new FormData();
+    formdata.append("bg_image", e.target.files[0]);
   };
 
   const changeAvatarImage = (e) => {
@@ -149,13 +148,6 @@ const Images = () => {
             </StyledAvatar>
             <h3>{store.name}</h3>
           </FlexContainer>
-          <StyledNav>
-            <StyledLinks>
-              <Link to="/">Home</Link>
-              <Link to="/">DashBoard</Link>
-              <Link to="/">Orders</Link>
-            </StyledLinks>
-          </StyledNav>
         </StyledPreviewHeader>
       </StyledStorePreview>
     </>

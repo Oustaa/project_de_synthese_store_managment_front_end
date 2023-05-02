@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Store from "./pages/store/Store";
-import CreateStore from "./pages/create";
-import CreateProduct from "./pages/CreateProduct";
+import CreateStore from "./pages/create/account";
+import CreateProduct from "./pages/create/product";
 import LogIn from "./pages/LogIn";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";

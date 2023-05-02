@@ -11,6 +11,10 @@ export const FlexContainer = styled.div`
   align-items: center;
   padding-block: var(--spacing-sm);
   gap: var(--spacing-sm);
+  & > * {
+    min-width: fit-content;
+    height: 100%;
+  }
 `;
 
 export const StyledButton = styled.button`

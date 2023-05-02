@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { StyledButton, StyledInputGroup } from "../../styles";
+import { StyledInputGroup } from "../../../styles";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -71,18 +71,25 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
 
   const handelChange = (e) => {
     changeHandler(e);
+    const regexPhoneNumber = /^((\+)33|0)[1-9](\d{2}){4}$/;
+
+    if (e.target.value.match(regexPhoneNumber)) {
+      setCanContinue(true);
+    } else {
+      setCanContinue(false);
+    }
     setPhone(e.target.value);
   };
 
   useEffect(() => {
     if (data.phone_number) setPhone(data.phone_number);
-    if (data.phone_verified) setCanContinue(true);
-    sendMSG(
-      "0641679994",
-      process.env.REACT_APP_RAPID_API_X_KEY,
-      setError,
-      setCodeSent
-    );
+    // if (data.phone_verified) setCanContinue(true);
+    // sendMSG(
+    //   "0641679994",
+    //   process.env.REACT_APP_RAPID_API_X_KEY,
+    //   setError,
+    //   setCodeSent
+    // );
   }, []);
 
   return (
@@ -114,7 +121,7 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
         </StyledInputGroup>
       )}
       {/* <p>{error}</p> */}
-      {!data.phone_verified ? (
+      {/* {!data.phone_verified ? (
         <StyledButton
           onClick={() =>
             sendMSG(
@@ -129,7 +136,7 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
         </StyledButton>
       ) : (
         "Your phone is verified"
-      )}
+      )} */}
     </div>
   );
 };

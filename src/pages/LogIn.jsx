@@ -65,22 +65,25 @@ const LogIn = () => {
       );
 
       const data = await respons.data;
+      console.log(data);
       if (data.accessToken && data.name) {
         localStorage.setItem("token", data.accessToken);
         dispatch(login({ token: data.accessToken }));
         return navigate("/");
       }
     } catch (error) {
-      if (error?.response?.status === 400) {
-        if (!error?.response?.data?.email)
+      const errorResponse = error?.response;
+      if (errorResponse?.status === 400) {
+        if (!errorResponse?.data?.email)
           setStoreInfo((prev) => {
             return { ...prev, email_valid: false };
           });
-        else if (!error?.response?.data?.password)
+        else if (!errorResponse?.data?.password)
           setStoreInfo((prev) => {
             return { ...prev, password_valid: false };
           });
-      }
+      } else if (errorResponse?.status === 307)
+        return navigate("/store/reativate");
     } finally {
       setLoading(false);
     }

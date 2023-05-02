@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/auth-slice";
+import { login } from "../../../features/auth-slice";
 import styled from "styled-components";
 import StoreName from "./StoreName";
 import StoreEmail from "./StoreEmail";
 import StorePhone from "./StorePhone";
 import StorePassword from "./StorePassword";
 import { useNavigate, Link } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
-import { StyledContainer, StyledButton } from "../../styles";
+import { StyledContainer, StyledButton } from "../../../styles";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -37,7 +38,7 @@ const StyledCreateBody = styled.div`
 `;
 
 const Components = [StoreName, StoreEmail, StorePhone, StorePassword];
-const titles = ["Name", "Email", "Email", "Password"];
+const titles = ["Name", "Email", "Phone number", "Password"];
 
 const CreateStore = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const CreateStore = () => {
   });
   const [step, setStep] = useState(0);
   const [canContinue, setCanContinue] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({});
+  const [limit, setLimit] = useState(null);
+  const [error, setError] = useState(false);
 
   let { token, name } = useSelector((state) => state.auth);
   if (!token && !name) {
@@ -64,7 +69,7 @@ const CreateStore = () => {
   const nextHandler = () => {
     if (!canContinue) return;
     setStep((prev) => (prev += 1));
-    // setCanContinue(false);
+    setCanContinue(false);
   };
 
   const prevHandler = () => {
@@ -87,12 +92,30 @@ const CreateStore = () => {
     });
   };
 
+  const verify = async () => {
+    if (!canContinue || !filters || !limit) return;
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/stores/exists`,
+        {
+          filter: filters,
+          limit,
+        }
+      );
+
+      const data = await response.data;
+
+      if (!data.conflect) nextHandler();
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createStore = async (e) => {
     e.preventDefault();
-    // const formData = new FormData();formData.append("images", [
-    //   { ...storeData.avatar, name: "avatar" },
-    //   { ...storeData.bgImg, name: "avatar" },
-    // ]);
 
     try {
       const respons = await axios.post(
@@ -138,6 +161,10 @@ const CreateStore = () => {
             changeHandler={changeHandler}
             imageChnageHandler={imageChnageHandler}
             data={storeData}
+            setFilters={setFilters}
+            setLimit={setLimit}
+            error={error}
+            setError={setError}
           />
         }
       </StyledCreateBody>
@@ -148,15 +175,15 @@ const CreateStore = () => {
           </StyledButton>
         )}
         {step === 3 ? (
-          <form enctype="multipart/form-data" onSubmit={createStore}>
+          <form encType="multipart/form-data" onSubmit={createStore}>
             <StyledButton type="submit">Create</StyledButton>
           </form>
         ) : (
           <StyledButton
             bgColor={!canContinue ? "var(--dark-500)" : "var(--primary-dark)"}
-            onClick={nextHandler}
+            onClick={verify}
           >
-            Next
+            {!loading ? "Next" : <ClipLoader size={"1.3rem"} color="#fff" />}
           </StyledButton>
         )}
       </StyledCreationHeaderFooter>

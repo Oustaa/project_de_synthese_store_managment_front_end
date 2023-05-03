@@ -33,16 +33,16 @@ const StyledForm = styled.form`
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let { token } = useSelector((state) => state.auth);
-  if (!token) {
-    token = localStorage.getItem("token");
-  }
+
+  const token = localStorage.getItem("token");
+
   const [storeInfo, setStoreInfo] = useState({
     password: "",
     password_valid: true,
     email: "",
     email_valid: true,
   });
+
   const [loading, setLoading] = useState(false);
 
   const changehandler = (e) => {

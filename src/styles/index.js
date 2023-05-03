@@ -30,13 +30,19 @@ export const StyledButton = styled.button`
   & > * {
     color: ${({ color }) => (color ? color : "var(--white)")};
   }
+  span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
 `;
 
 export const StyledInputGroup = styled.div`
   width: 100%;
   margin-bottom: var(--spacing-lg);
   input,
-  textarea {
+  textarea,
+  select {
     width: 100%;
     padding: var(--spacing-lg);
     border: 1px solid var(--dark-800);
@@ -55,6 +61,29 @@ export const StyledInputGroup = styled.div`
       border-color: var(--danger);
       background-color: var(--danger-100);
     }
+  }
+  select option {
+    padding-block: var(--spacing-lg) !important;
+    display: inline-block;
+  }
+`;
+
+export const StyledInputButton = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 1px solid var(--dark-700);
+  border-radius: var(--radius-lg);
+  button {
+    padding-block: var(--spacing-lg) !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+  input {
+    margin: 0;
+    border: none !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
   }
 `;
 

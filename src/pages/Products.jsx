@@ -1,6 +1,6 @@
-import React from "react";
-import { v4 } from "uuid";
+import React, { useEffect } from "react";
 import Table from "../components/table/Table";
+import { useSelector } from "react-redux";
 
 const tableHeaders = {
   Id: { value: "id" },
@@ -14,15 +14,13 @@ const tableHeaders = {
 };
 
 const Products = () => {
-  const data = [];
+  const products = useSelector((state) => state.store.products);
 
-  for (let index = 0; index < 70; index++) {
-    data.push({ id: v4() });
-  }
+  useEffect(() => {}, []);
 
   return (
     <>
-      <Table tableTitle="" headers={tableHeaders} data={data} />
+      <Table tableTitle="" headers={tableHeaders} data={products} />
     </>
   );
 };

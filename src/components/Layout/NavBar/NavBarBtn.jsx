@@ -10,7 +10,7 @@ import { StyledBtnContainer } from "../../../styles/styled-navBar";
 const NavBarBtn = () => {
   const dispatch = useDispatch();
   const storename = useSelector((state) => state.store.store).name;
-  console.log(storename);
+
   const logOutHandler = () => {
     dispatch(logout());
     localStorage.clear();

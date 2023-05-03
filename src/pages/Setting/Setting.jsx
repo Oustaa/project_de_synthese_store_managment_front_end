@@ -4,8 +4,10 @@ import Images from "./Images";
 import { StyledInputGroup, FlexContainer, StyledButton } from "../../styles";
 import { useSelector, useDispatch } from "react-redux";
 import { closeAlert, openAlert } from "../../features/ui-slice";
+import { logout } from "../../features/auth-slice";
 import Alert from "../../components/Alert";
-import axios from "axios";
+import { updateStore } from "../../features/store-slice";
+import { ClipLoader } from "react-spinners";
 
 const StyledSettingPage = styled.div`
   h1 {
@@ -24,8 +26,18 @@ const StyledForm = styled.form`
   margin-inline: auto;
 `;
 
+const StyledDisplayActon = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--spacing-lg);
+  gap: var(--spacing-lg);
+`;
+
 const Setting = () => {
   const dispatch = useDispatch();
+  const [action, setAction] = useState("");
+  const [status, setStatus] = useState("idle");
   const [storeInfo, setStoreInfo] = useState({});
   const store = useSelector((state) => state.store.store);
   const [password, setPassword] = useState({ value: "", correct: true });
@@ -44,46 +56,90 @@ const Setting = () => {
     });
   };
 
-  const deleteAccountHandler = () => {
-    alert("delete");
+  const deleteAccountHandler = async function () {
+    setAction("delete");
+    enterPasswordHandler();
   };
 
-  const updateHandler = async (e) => {
-    e.preventDefault();
+  const alertSubmitHandler = async () => {
+    if (action === "") setStatus("updating");
+    else setStatus("deleting");
 
     try {
       // sent a request put to stores end point
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/stores`, {
-        method: "PUT",
-        body: JSON.stringify({ data: storeInfo, password: password.value }),
+        method: action === "" ? "PUT" : "DELETE",
+        body: action === "" ? JSON.stringify(storeInfo) : {},
         headers: {
           Authorization: localStorage.getItem("token"),
-          "Content-Type": "application/json",
+          "Content-Type": action === "" ? "application/json" : "",
         },
       });
 
       const data = await response.json();
-      console.log(data);
-
-      if (response.status === 403) {
-        if (data.password === false && data.message === "Invalid password") {
-          setPassword((prev) => {
-            return { ...prev, correct: false };
-          });
+      if (action === "") {
+        if (response.status === 403) {
+          if (data.password === false && data.message === "Invalid password") {
+            setPassword((prev) => {
+              return { ...prev, correct: false };
+            });
+          }
         }
-      }
 
-      if (data?.updatedStore.acknowledged) {
-        dispatch(closeAlert());
+        if (data?.updatedStore.acknowledged) {
+          dispatch(closeAlert());
+          dispatch(updateStore(storeInfo));
+        }
+      } else {
+        if (data.acknowledged && data.deletedCount === 1) {
+          dispatch(logout);
+        }
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setStatus("idle");
+      setAction("");
     }
   };
 
   const enterPasswordHandler = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     dispatch(openAlert());
+  };
+
+  const ConfirmPassword = async (e, cb) => {
+    e.preventDefault();
+    setStatus("confirm");
+    try {
+      // sent a request put to stores end point
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/auth/confirm/pass`,
+        {
+          method: "POST",
+          body: JSON.stringify({ password: password.value }),
+          headers: {
+            Authorization: localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.status === 403) {
+        if (!data.matched) {
+          setPassword((prev) => {
+            return { ...prev, correct: false };
+          });
+        }
+      } else if (response.status === 200) {
+        setPassword({ password: "", correct: true });
+        cb();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const passwordChangeHandler = (e) => {
@@ -113,32 +169,52 @@ const Setting = () => {
   return (
     <>
       <Alert>
-        <form onSubmit={updateHandler}>
-          <StyledInputGroup className={`${!password.correct && "invalid"}`}>
-            <label htmlFor="passwordConfirmation">
-              <h4>Please enter your password</h4>
-            </label>
-            <input
-              type="password"
-              id="passwordConfirmation"
-              value={password.value}
-              onChange={passwordChangeHandler}
-            />
-            {!password.correct && (
-              <p>Password is incorrect, can't update store information.</p>
-            )}
-          </StyledInputGroup>
-          <FlexContainer>
-            <StyledButton>Confirm</StyledButton>
-            <StyledButton
-              type="button"
-              onClick={cancelHandler}
-              bgColor="var(--danger)"
-            >
-              Cancel
-            </StyledButton>
-          </FlexContainer>
-        </form>
+        <>
+          {/* updating");
+    else setStatus("deleting"); */}
+          {status === "updating" ? (
+            <StyledDisplayActon>
+              <ClipLoader size={60} />
+              <h2>{action === "" ? "Updating" : "Deleting"}</h2>
+            </StyledDisplayActon>
+          ) : (
+            <form onSubmit={(e) => ConfirmPassword(e, alertSubmitHandler)}>
+              <StyledInputGroup className={`${!password.correct && "invalid"}`}>
+                <label htmlFor="passwordConfirmation">
+                  <h4>Please enter your password</h4>
+                </label>
+                <input
+                  type="password"
+                  id="passwordConfirmation"
+                  value={password.value}
+                  onChange={passwordChangeHandler}
+                />
+                {!password.correct && (
+                  <p>Password is incorrect, can't update store information.</p>
+                )}
+              </StyledInputGroup>
+              <FlexContainer>
+                <StyledButton>
+                  {status === "confirm" ? (
+                    <span>
+                      Confirming
+                      <ClipLoader size={10} color="#fff" />
+                    </span>
+                  ) : (
+                    "Confirm"
+                  )}
+                </StyledButton>
+                <StyledButton
+                  type="button"
+                  onClick={cancelHandler}
+                  bgColor="var(--danger)"
+                >
+                  Cancel
+                </StyledButton>
+              </FlexContainer>
+            </form>
+          )}
+        </>
       </Alert>
       <StyledSettingPage>
         <h1>Setting</h1>
@@ -257,8 +333,8 @@ const Setting = () => {
           <FlexContainer>
             <StyledButton>Save Chnages</StyledButton>
             <StyledButton
-              onClick={deleteAccountHandler}
               type="button"
+              onClick={deleteAccountHandler}
               bgColor="var(--danger)"
             >
               Delete Account

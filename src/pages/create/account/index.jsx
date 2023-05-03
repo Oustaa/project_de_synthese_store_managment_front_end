@@ -132,10 +132,9 @@ const CreateStore = () => {
 
       if (responseData.token && responseData.name) {
         dispatch(login(responseData));
-        navigate(`/store.com/${responseData.name}`);
+        navigate(`/login`);
       }
     } catch (error) {
-      // handle missing reauired fields and conflections
       console.log(error);
     }
   };

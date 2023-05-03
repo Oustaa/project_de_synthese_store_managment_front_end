@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FlexContainer, StyledButton } from "../../styles";
 import { BiUpload } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const StyledStorePreview = styled.div`
   width: 100%;
@@ -99,7 +100,6 @@ const StyledAvatar = styled.div`
 const Images = () => {
   const store = useSelector((state) => state.store.store);
   const [avatar, setAvatar] = useState("");
-  const [bgImg, setBgImg] = useState("");
 
   const changeBgImage = (e) => {
     const formdata = new FormData();
@@ -109,6 +109,10 @@ const Images = () => {
   const changeAvatarImage = (e) => {
     setAvatar(URL.createObjectURL(e.target.files[0]));
   };
+
+  useEffect(() => {
+    console.log(store);
+  }, [store]);
 
   return (
     <>

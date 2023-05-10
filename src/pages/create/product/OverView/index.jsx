@@ -8,6 +8,10 @@ const StyledDisplayProduct = styled.div`
   display: flex;
   gap: var(--spacing-lg);
   width: 70%;
+  position: sticky;
+  top: 0;
+  height: calc(100% - 80px);
+  padding-right: 5px;
 `;
 
 const DisplayProduct = ({ productInfo, images, setImages }) => {

@@ -9,25 +9,34 @@ const StyledOverViews = styled.div`
 
 const StyledOverView = styled.div`
   padding: var(--spacing-xl);
-  //   background-color: var(--dark-200);
   border-radius: var(--radius-lg);
   border: 1px dashed var(--dark-600);
+  position: relative;
+  h3 {
+    font-size: 2.4rem;
+    color: var(--dark-700);
+    text-align: center;
+  }
+  h4 {
+    font-size: 1rem;
+    color: var(--dark-300);
+  }
 `;
 
 const OverView = () => {
   return (
     <StyledOverViews>
       <StyledOverView>
-        <h3>Value</h3>
-        <h4>title</h4>
+        <h4>Views</h4>
+        <h3>56</h3>
       </StyledOverView>
       <StyledOverView>
-        <h3>Value</h3>
-        <h4>title</h4>
+        <h4>Visits</h4>
+        <h3>34</h3>
       </StyledOverView>
       <StyledOverView>
-        <h3>Value</h3>
-        <h4>title</h4>
+        <h4>Visits / Views Rasio</h4>
+        <h3>0.61</h3>
       </StyledOverView>
     </StyledOverViews>
   );

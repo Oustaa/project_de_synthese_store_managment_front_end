@@ -7,7 +7,7 @@ import Categories from "./Categories";
 import AddSpecification from "./AddSpecification";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
+import ExtandedSection from "../../../../components/ExtandedSection";
 const StyledFrom = styled.form`
   width: 30%;
 `;
@@ -39,8 +39,6 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
   const storeInfo = useSelector((state) => state.store.store);
 
   const imagesChangeHandler = (e) => {
-    // if (e.target.files[0] === undefined) return;
-    // setImages((prev) => [...prev, e.target.files[0]]);
     setImages((prev) => {
       return [...prev, ...e.target.files];
     });
@@ -146,9 +144,13 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
         />
       </StyledInputGroup>
       <StyledLineBreak />
-      <About changeHandler={changeHandler} />
+      <ExtandedSection title="Abouts">
+        <About data={productInfo} changeHandler={changeHandler} />
+      </ExtandedSection>
       <StyledLineBreak />
-      <AddSpecification changeHandler={changeHandler} data={productInfo} />
+      <ExtandedSection title="Specifications">
+        <AddSpecification changeHandler={changeHandler} data={productInfo} />
+      </ExtandedSection>
       <StyledLineBreak />
       <StyledButton>Create Product</StyledButton>
     </StyledFrom>

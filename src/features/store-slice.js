@@ -10,16 +10,31 @@ export const getStore = createAsyncThunk("get/store", async () => {
 
   return resp.data.items;
 });
+
 export const getStoresProducts = createAsyncThunk(
+  "get/categories",
+  async () => {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/categories`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+
+    return resp.data;
+  }
+);
+
+export const getCategories = createAsyncThunk(
   "get/store/products",
   async () => {
-    const resp = await axios.get(`${process.env.REACT_APP_BASE_URL}/stores`, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
-
-    return resp.data.items;
+    const resp = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/categories`
+    );
+    console.log(resp.data);
+    return resp.data;
   }
 );
 
@@ -29,6 +44,7 @@ const storeSlice = createSlice({
     loading: false,
     store: {},
     products: [],
+    categories: [],
   },
   reducers: {
     updateStore: (state, { payload }) => {
@@ -45,6 +61,18 @@ const storeSlice = createSlice({
         state.store = payload;
       })
       .addCase(getStore.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error;
+      });
+    builder
+      .addCase(getCategories.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCategories.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.categories = payload;
+      })
+      .addCase(getCategories.rejected, (state, { error }) => {
         state.loading = false;
         state.error = error;
       });

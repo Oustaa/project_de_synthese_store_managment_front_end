@@ -10,7 +10,7 @@ export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   padding-block: var(--spacing-sm);
-  gap: var(--spacing-sm);
+  gap: ${({ gap }) => (gap ? gap : "var(--spacing-sm)")};
   & > * {
     min-width: fit-content;
     height: 100%;
@@ -24,7 +24,7 @@ export const StyledButton = styled.button`
   padding: var(--spacing-sm) var(--spacing-xl);
   background-color: ${({ bgColor }) =>
     bgColor ? bgColor : "var( --primary-dark) "};
-  border: none;
+  border: ${({ border }) => (border ? border : "none")};
   border-radius: var(--radius-lg);
   color: ${({ color }) => (color ? color : "var(--white)")};
   & > * {
@@ -40,14 +40,20 @@ export const StyledButton = styled.button`
 export const StyledInputGroup = styled.div`
   width: 100%;
   margin-bottom: var(--spacing-lg);
+
+  label {
+    margin-bottom: var(--spacing-sm);
+    display: inline-block;
+  }
+
   input,
   textarea,
   select {
     width: 100%;
-    padding: var(--spacing-lg);
-    border: 1px solid var(--dark-800);
+    padding: var(--spacing-sm);
+    border: 1px solid var(--dark-300);
     border-radius: var(--radius-lg);
-    margin-block: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
   }
   textarea {
     resize: none;
@@ -62,9 +68,9 @@ export const StyledInputGroup = styled.div`
       background-color: var(--danger-100);
     }
   }
-  select option {
-    padding-block: var(--spacing-lg) !important;
-    display: inline-block;
+
+  & > div {
+    margin-bottom: var(--spacing-lg);
   }
 `;
 
@@ -72,10 +78,10 @@ export const StyledInputButton = styled.div`
   display: flex;
   align-items: center;
   padding: 0;
-  border: 1px solid var(--dark-700);
+  border: 1px solid var(--dark-300);
   border-radius: var(--radius-lg);
   button {
-    padding-block: var(--spacing-lg) !important;
+    // padding-block: var(--spacing-lg) !important;
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
   }
@@ -105,4 +111,14 @@ export const StyledBackDrop = styled.div`
   inset: 0 0 0 0;
   background-color: ${({ dark }) => (dark ? "#3a3a3a4a" : "")};
   z-index: 300;
+`;
+
+export const StyledLoader = styled.div`
+  width: 100%;
+  height: ${({ height }) => (height ? height : "80vh")};
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

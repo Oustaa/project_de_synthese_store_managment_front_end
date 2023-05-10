@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom/dist";
 
 import { ClipLoader } from "react-spinners";
@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 const StyledLayout = styled.div`
   display: flex;
   main {
-    width: calc(100% - 300px);
+    width: 100%;
     margin-inline-start: var(--spacing-lg);
     padding-right: var(--spacing-lg);
   }
@@ -33,7 +33,7 @@ const StyledBody = styled.div`
   height: fit-content;
 
   position: relative;
-  padding-right: var(--spacing-lg);
+  // padding-right: var(--spacing-lg);
   margin-top: var(--spacing-lg);
 
   &::-webkit-scrollbar {

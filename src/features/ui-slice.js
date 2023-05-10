@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiSlice = createSlice({
   name: "ui",
   initialState: {
+    sideNavOpen: true,
     alertOpen: false,
   },
   reducers: {
@@ -12,9 +13,12 @@ const uiSlice = createSlice({
     closeAlert: (state) => {
       state.alertOpen = false;
     },
+    toggleNavBar: (state) => {
+      state.sideNavOpen = !state.sideNavOpen;
+    },
   },
 });
 
-export const { openAlert, closeAlert } = uiSlice.actions;
+export const { openAlert, closeAlert, toggleNavBar } = uiSlice.actions;
 
 export default uiSlice.reducer;

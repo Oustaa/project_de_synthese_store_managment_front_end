@@ -8,6 +8,7 @@ import {
   BsShop,
   BsReverseListColumnsReverse,
   BsGear,
+  BsQuestionCircle,
 } from "react-icons/bs";
 
 function isActive({ isActive }) {
@@ -18,15 +19,16 @@ const links = [
   { to: "/dashboard", text: "Dashboard", icon: <BsHouse /> },
   { to: "/products", text: "Products", icon: <BsShop /> },
   { to: "/orders", text: "Orders", icon: <BsReverseListColumnsReverse /> },
+  { to: "/questions", text: "Questions", icon: <BsQuestionCircle /> },
   { to: "/setting", text: "Setting", icon: <BsGear /> },
 ];
 
-const SideNavLinks = () => {
+const SideNavLinks = ({ sideNavOpen }) => {
   return (
     <StyledNavLinks>
       {links.map(({ to, text, icon }, id) => (
         <NavLink key={id} className={isActive} to={to}>
-          <StyledNavLink>
+          <StyledNavLink open={sideNavOpen}>
             {icon}
             <span>{text}</span>
           </StyledNavLink>

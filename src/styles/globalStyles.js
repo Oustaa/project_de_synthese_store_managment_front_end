@@ -73,7 +73,7 @@ const GlobalStyles = createGlobalStyle`
         line-height: 1.5;
         font-family: 'Raleway', sans-serif;
         color: var(--dark-800);
-        background-color: var(--dark-000);
+        // background-color: var(--dark-000);
     }
 
     // a:not([class]) {

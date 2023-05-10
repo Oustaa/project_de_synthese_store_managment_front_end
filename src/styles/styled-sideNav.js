@@ -12,29 +12,35 @@ export const StyledSidNav = styled.aside`
   ${({ open }) => {
     if (!open) {
       return `
-              position: absolute;
-              transform: translate(-100%)
+             width: 100px;
             `;
     }
-    return `
-    position: sticky;
-    transform: unset;
-    `;
   }};
-
-  // @media (max-width: 900px) {
-  //   position: absolute;
-  //   transform: translateX(-100%);
-  // }
 `;
 
 export const StyledHeader = styled.header`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--primary-blue-800);
-  height: 70px;
+  text-align: center;
+  ${({ open }) => {
+    if (!open) {
+      return `
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-block-start:var(--spacing-lg);
 
+      & > * {
+        width: 100%;
+      }
+      `;
+    } else
+      return `
+        align-items: center;
+        justify-content: space-between;
+        color: var(--primary-blue-800);
+        height: 70px;
+    `;
+  }}
   img {
     width: 100px;
   }
@@ -65,10 +71,10 @@ export const StyledNavLink = styled.span`
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-
+  justify-content: ${({ open }) => (open ? "" : "center")};
   span {
     height: fit-content;
-    display: inline-block;
+    display: ${({ open }) => (open ? "inline-block" : "none")};
   }
 
   svg {

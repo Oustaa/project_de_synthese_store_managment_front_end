@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyledTr, StyledTd } from "../../styles/styled-table";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const StyledImage = styled.img`
   width: 100px;
@@ -21,9 +20,10 @@ const TableRow = ({ data, fields, id, name }) => {
       return (
         <StyledTd key={i} className="image">
           <StyledImage
-            src={`${process.env.REACT_APP_BASE_URL}/images/${
-              data[field.value]
-            }`}
+            crossOrigin="anonymous"
+            src={`${
+              process.env.REACT_APP_BASE_URL
+            }/images/OustaStore/products/${data[field.value][0]}`}
           />
         </StyledTd>
       );
@@ -37,9 +37,11 @@ const TableRow = ({ data, fields, id, name }) => {
       data[field.value] !== null &&
       data[field.value] !== undefined &&
       data[field.value] !== ""
-    )
-      return <StyledTd key={i}>{data[field.value]}</StyledTd>;
-    else if (field.default)
+    ) {
+      if (field.exec && field.exec instanceof Function)
+        return <StyledTd key={i}>{field.exec(data[field.value])}</StyledTd>;
+      else return <StyledTd key={i}>{data[field.value]}</StyledTd>;
+    } else if (field.default)
       return <StyledTd key={i}>{field.defaultValue}</StyledTd>;
     else if (field.checked)
       return <StyledTd key={i}>{field.check(data, i)}</StyledTd>;

@@ -10,7 +10,6 @@ export const StyledTableHead = styled.div`
   align-items: center;
   justify-content: space-between !important;
   background-color: var(--white);
-  // gap: var(--spacing-lg);
   margin-bottom: var(--spacing-sm);
   position: sticky;
   top: 0;
@@ -22,7 +21,6 @@ export const StyledTableHead = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    // gap: var(--spacing-sm);
   }
 `;
 

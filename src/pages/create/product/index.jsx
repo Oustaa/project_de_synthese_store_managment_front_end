@@ -3,15 +3,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import Form from "./Form";
-import DisplayProduct from "./DisplayProduct";
+import ProductOverView from "./OverView";
 
 const StyledCreateProduct = styled.div`
   display: flex;
   gap: var(--spacing-lg);
-
-  & > * {
-    width: 50%;
-  }
+  position: relative;
 `;
 
 const CreateProduct = () => {
@@ -24,8 +21,13 @@ const CreateProduct = () => {
         productInfo={productInfo}
         setProductInfo={setProductInfo}
         setImages={setImages}
+        images={images}
       />
-      <DisplayProduct images={images} productInfo={productInfo} />
+      <ProductOverView
+        images={images}
+        setImages={setImages}
+        productInfo={productInfo}
+      />
     </StyledCreateProduct>
   );
 };

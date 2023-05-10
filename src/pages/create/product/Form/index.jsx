@@ -1,8 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { StyledInputGroup } from "../../../styles";
+import { StyledButton, StyledInputGroup } from "../../../../styles";
 import About from "./About";
+import Categories from "./Categories";
+import AddSpecification from "./AddSpecification";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+const StyledFrom = styled.form`
+  width: 30%;
+`;
 
 const StyledImagesInput = styled.div`
   width: 100%;
@@ -23,11 +31,18 @@ const StyledImagesInput = styled.div`
   }
 `;
 
-const Form = ({ productInfo, setProductInfo, setImages }) => {
+const StyledLineBreak = styled.hr`
+  margin-block: var(--spacing-xl);
+`;
+
+const Form = ({ productInfo, setProductInfo, setImages, images }) => {
+  const storeInfo = useSelector((state) => state.store.store);
+
   const imagesChangeHandler = (e) => {
-    if (e.target.files[0] === undefined) return;
+    // if (e.target.files[0] === undefined) return;
+    // setImages((prev) => [...prev, e.target.files[0]]);
     setImages((prev) => {
-      return [...prev, e.target.files[0]];
+      return [...prev, ...e.target.files];
     });
   };
 
@@ -38,17 +53,41 @@ const Form = ({ productInfo, setProductInfo, setImages }) => {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    const data = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      data.append("images[]", images[i]);
+    }
+    console.log(data.get("images"));
+    data.append("currency", storeInfo.currency);
+
+    for (let field in productInfo) {
+      data.append(field, JSON.stringify(productInfo[field]));
+    }
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/products`,
+      data,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          enctype: "multipart/form-data",
+        },
+      }
+    );
+
+    const responseData = await response.data;
+    console.log(responseData);
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <StyledFrom onSubmit={submitHandler}>
       <StyledImagesInput>
         <input
           type="file"
           onChange={imagesChangeHandler}
-          // multiple={true}
+          multiple={true}
           accept="image/*"
           name=""
           id=""
@@ -68,19 +107,6 @@ const Form = ({ productInfo, setProductInfo, setImages }) => {
         />
       </StyledInputGroup>
       <StyledInputGroup>
-        <label htmlFor="description">
-          <h4>Description:</h4>
-        </label>
-        <textarea
-          cols="30"
-          rows="7"
-          name="description"
-          id="description"
-          value={productInfo.description || ""}
-          onChange={changeHandler}
-        ></textarea>
-      </StyledInputGroup>
-      <StyledInputGroup>
         <label htmlFor="price">
           <h4>Price:</h4>
         </label>
@@ -93,38 +119,19 @@ const Form = ({ productInfo, setProductInfo, setImages }) => {
         />
       </StyledInputGroup>
       <StyledInputGroup>
-        <label htmlFor="category_id">
-          <h4>Category:</h4>
+        <label htmlFor="description">
+          <h4>Description:</h4>
         </label>
-        <select
-          name="category_id"
-          id="category_id"
-          value={productInfo.category_id || ""}
+        <textarea
+          cols="30"
+          rows="7"
+          name="description"
+          id="description"
+          value={productInfo.description || ""}
           onChange={changeHandler}
-        >
-          <option value="dsad">1</option>
-          <option value="dsad">2</option>
-          <option value="dsad">3</option>
-        </select>
+        ></textarea>
       </StyledInputGroup>
-      {productInfo.category_id && (
-        <StyledInputGroup>
-          <label htmlFor="subcategory_id">
-            <h4>Sub Category:</h4>
-          </label>
-          <select
-            name="subcategory_id"
-            id="subcategory_id"
-            value={productInfo.subcategory_id || ""}
-            onChange={changeHandler}
-          >
-            <option value="dsad">1</option>
-            <option value="dsad">2</option>
-            <option value="dsad">3</option>
-          </select>
-        </StyledInputGroup>
-      )}
-      <About />
+      <Categories changeHandler={changeHandler} />
       <StyledInputGroup>
         <label htmlFor="stock_Quantity">
           <h4>Stock Quantity:</h4>
@@ -133,14 +140,18 @@ const Form = ({ productInfo, setProductInfo, setImages }) => {
           type="number"
           name="stock_Quantity"
           id="stock_Quantity"
+          min={0}
           value={productInfo.stock_Quantity || ""}
           onChange={changeHandler}
         />
       </StyledInputGroup>
-      {/* 
-        extra_images: [String],
-      */}
-    </form>
+      <StyledLineBreak />
+      <About changeHandler={changeHandler} />
+      <StyledLineBreak />
+      <AddSpecification changeHandler={changeHandler} data={productInfo} />
+      <StyledLineBreak />
+      <StyledButton>Create Product</StyledButton>
+    </StyledFrom>
   );
 };
 

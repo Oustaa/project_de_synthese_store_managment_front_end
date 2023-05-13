@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { insertProduct } from "../../../../features/products-slice";
-import { StyledButton, StyledInputGroup } from "../../../../styles";
+import { insertProduct } from "../../../features/products-slice";
+import { StyledButton, StyledInputGroup } from "../../../styles";
 import About from "./About";
 import Categories from "./Categories";
 import AddSpecification from "./AddSpecification";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import ExtandedSection from "../../../../components/ExtandedSection";
+import ExtandedSection from "../../../components/ExtandedSection";
 import { useNavigate } from "react-router-dom";
 const StyledFrom = styled.form`
   width: 30%;
@@ -135,7 +135,7 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
           onChange={changeHandler}
         ></textarea>
       </StyledInputGroup>
-      <Categories changeHandler={changeHandler} />
+      <Categories changeHandler={changeHandler} data={productInfo} />
       <StyledInputGroup>
         <label htmlFor="stock_Quantity">
           <h4>Stock Quantity:</h4>
@@ -158,7 +158,7 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
         <AddSpecification changeHandler={changeHandler} data={productInfo} />
       </ExtandedSection>
       <StyledLineBreak />
-      <StyledButton>Create Product</StyledButton>
+      <StyledButton>Save Changes</StyledButton>
     </StyledFrom>
   );
 };

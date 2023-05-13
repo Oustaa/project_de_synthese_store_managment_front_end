@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyledTr, StyledTd } from "../../styles/styled-table";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+
+import DisplayedProduct from "../DisplayedProduct";
 
 const StyledImage = styled.img`
   width: 100px;
@@ -8,12 +11,8 @@ const StyledImage = styled.img`
   object-fit: contain;
 `;
 
-const StyledProductDisplay = styled.td`
-  border: 1px solid var(--dark-100);
-  padding: var(--spacing-lg);
-`;
-
-const TableRow = ({ data, fields, id, name }) => {
+const TableRow = ({ data, fields, id }) => {
+  const { name } = useSelector((state) => state.store.store);
   const [showDetailed, setShowDetailed] = useState(false);
   const displayedValues = fields.map((field, i) => {
     if (field.type === "image")
@@ -21,9 +20,9 @@ const TableRow = ({ data, fields, id, name }) => {
         <StyledTd key={i} className="image">
           <StyledImage
             crossOrigin="anonymous"
-            src={`${
-              process.env.REACT_APP_BASE_URL
-            }/images/OustaStore/products/${data[field.value][0]}`}
+            src={`${process.env.REACT_APP_BASE_URL}/images/${name}/products/${
+              data[field.value][0]
+            }`}
           />
         </StyledTd>
       );
@@ -61,7 +60,7 @@ const TableRow = ({ data, fields, id, name }) => {
       <StyledTr onClick={handelClick}>{displayedValues}</StyledTr>
       {showDetailed && (
         <tr>
-          <StyledProductDisplay colSpan="8" />
+          <DisplayedProduct data={data} />
         </tr>
       )}
     </>

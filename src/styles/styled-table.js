@@ -39,7 +39,8 @@ export const StyledTable = styled.table`
 export const StyledTableHeader = styled.thead`
   background-color: var(--white);
   position: sticky;
-  top: 55px;
+  top: 46px;
+  z-index: 100;
   background-color: var(--primary);
   & > * {
     color: var(--white) !important;

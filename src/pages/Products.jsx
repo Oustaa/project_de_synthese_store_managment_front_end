@@ -3,9 +3,9 @@ import Table from "../components/table/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../features/products-slice";
 import Loader from "../components/Loader";
+import { BsDashLg } from "react-icons/bs";
 
 const tableHeaders = {
-  // Id: { value: "_id" },
   Image: { type: "image", value: "images" },
   Title: {
     value: "title",
@@ -14,10 +14,16 @@ const tableHeaders = {
     },
   },
   Description: {
-    value: "description",
-    exec: (field) => {
-      return field.slice(0, 45) + "...";
+    checked: true,
+    check: (data) => {
+      if (data["description"] !== "") {
+        return data.description.slice(0, 45) + "...";
+      }
+      return <BsDashLg />;
     },
+  },
+  Price: {
+    value: "price",
   },
   "Added At": { type: "date", value: "inserted_at" },
   Views: { value: "views" },
@@ -52,7 +58,7 @@ const Products = () => {
 
   return (
     <>
-      <Table tableTitle="" headers={tableHeaders} data={products} />
+      <Table headers={tableHeaders} data={products} />
     </>
   );
 };

@@ -10,6 +10,7 @@ import Orders from "./pages/Orders";
 import Setting from "./pages/Setting/Setting";
 import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import EditProduct from "./pages/Edit";
 
 import GlobalStyles from "./styles/globalStyles";
 
@@ -23,6 +24,7 @@ const App = () => {
               <Route index element={<Store />} />
               <Route path="dashboard" element={<Store />} />
               <Route path="products" element={<Products />} />
+              <Route path="products/edit/:id" element={<EditProduct />} />
               <Route path="orders" element={<Orders />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="create/product" element={<CreateProduct />} />

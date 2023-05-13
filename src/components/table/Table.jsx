@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // components
 import TableHeader from "./TableHeader";
@@ -11,7 +11,7 @@ import {
   StyledTableHead,
 } from "../../styles/styled-table";
 import { StyledButton } from "../../styles/";
-
+import Alert from "../Alert";
 const Table = ({
   headers,
   data,
@@ -20,27 +20,29 @@ const Table = ({
   endPoint,
   deletable,
 }) => {
+  const [productId, setProductId] = useState(null);
+
   return (
-    <StyledTableConainers>
-      <StyledTableHead>
-        <div>
-          <StyledButton color="var(--white)" bgColor="var(--primary)">
-            <Link to={"/create/product"}>Add Product</Link>
-          </StyledButton>
-        </div>
-      </StyledTableHead>
-      <StyledTable>
-        <TableHeader headers={headers} />
-        <TableBody
-          name={componentName}
-          endPoint={endPoint}
-          id_name={id_name}
-          data={data}
-          headers={headers}
-          deletable={deletable}
-        />
-      </StyledTable>
-    </StyledTableConainers>
+    <>
+      <Alert></Alert>
+      <StyledTableConainers>
+        <StyledTableHead>
+          <div>
+            <StyledButton color="var(--white)" bgColor="var(--primary)">
+              <Link to={"/create/product"}>Add Product</Link>
+            </StyledButton>
+          </div>
+        </StyledTableHead>
+        <StyledTable>
+          <TableHeader headers={headers} />
+          <TableBody
+            data={data}
+            headers={headers}
+            setProductId={setProductId}
+          />
+        </StyledTable>
+      </StyledTableConainers>
+    </>
   );
 };
 

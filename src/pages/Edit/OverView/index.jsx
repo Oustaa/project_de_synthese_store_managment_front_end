@@ -14,12 +14,12 @@ const StyledDisplayProduct = styled.div`
   padding-right: 5px;
 `;
 
-const DisplayProduct = ({ productInfo, images, setImages, type, width }) => {
+const DisplayProduct = ({ productInfo, type, width }) => {
   const storeInfo = useSelector((state) => state.store.store);
 
   return (
     <StyledDisplayProduct width={width}>
-      <Images type={type} images={images} setImages={setImages} />
+      <Images type={type} images={productInfo.images} />
       <Info storeInfo={storeInfo} productInfo={productInfo} />
     </StyledDisplayProduct>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FlexContainer } from "../../../../styles";
+import { FlexContainer } from "../../../styles";
 import { BsStarFill } from "react-icons/bs";
 
 const StyledInfoContainer = styled.div`

@@ -70,40 +70,28 @@ const STyledImagePreview = styled.div`
   }
 `;
 
-const Images = ({ images, setImages, type }) => {
+const Images = ({ images, setImages }) => {
   const storename = useSelector((state) => state.store.store.name);
   const [imgsUrls, setImagesUrls] = useState([]);
   const [displayedImage, setDisplayedImage] = useState(0);
 
   useEffect(() => {
-    if (type !== "display")
-      setImagesUrls(() => {
-        return Object.values(images).map((image) => URL.createObjectURL(image));
-      });
-    else
-      setImagesUrls(
-        images.map((image) => {
-          return `${process.env.REACT_APP_BASE_URL}/images/${storename}/products/${image}`;
-        })
-      );
+    setImagesUrls(
+      images?.map((image) => {
+        return `${process.env.REACT_APP_BASE_URL}/images/${storename}/products/${image}`;
+      })
+    );
+    console.log(images);
   }, [images]);
 
   const deleteImage = (id) => {
     setImages((prev) => prev.filter((image, i) => i !== id));
-    console.log(displayedImage, imgsUrls.length);
     if (displayedImage < imgsUrls.length) setDisplayedImage((prev) => prev - 1);
   };
 
   return (
     <StyledImagesContainer>
-      {!images.length ? (
-        <STyledImagePreview>
-          <h4>
-            Your First selected image will appear here, and'll be the product
-            profile image
-          </h4>
-        </STyledImagePreview>
-      ) : (
+      {images?.length ? (
         <>
           <StyledBigImage>
             <img crossOrigin="anynomos" src={imgsUrls[displayedImage]} alt="" />
@@ -124,6 +112,13 @@ const Images = ({ images, setImages, type }) => {
             ))}
           </StyledImages>
         </>
+      ) : (
+        <STyledImagePreview>
+          <h4>
+            Your First selected image will appear here, and'll be the product
+            profile image
+          </h4>
+        </STyledImagePreview>
       )}
     </StyledImagesContainer>
   );

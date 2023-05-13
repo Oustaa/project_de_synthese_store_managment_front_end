@@ -12,7 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 const StyledLayout = styled.div`
   display: flex;
   main {
-    width: 100%;
+    width: 100vw;
+
     margin-inline-start: var(--spacing-lg);
     padding-right: var(--spacing-lg);
   }

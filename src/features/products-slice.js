@@ -19,7 +19,11 @@ const productsSlice = createSlice({
   initialState: { value: [], loading: false, error: null },
   reducers: {
     insertProduct: (state, { payload }) => {
-      state.unshift(payload);
+      console.log(payload);
+      state.value.unshift(payload);
+    },
+    deleteProduct: (state, { payload }) => {
+      state.value = state.value.filter(({ _id }) => _id !== payload);
     },
   },
   extraReducers: (builder) => {
@@ -39,3 +43,5 @@ const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
+
+export const { insertProduct, deleteProduct } = productsSlice.actions;

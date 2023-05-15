@@ -34,7 +34,7 @@ const StyledBody = styled.div`
   height: fit-content;
 
   position: relative;
-  // padding-right: var(--spacing-lg);
+  padding-right: var(--spacing-sm);
   margin-top: var(--spacing-lg);
 
   &::-webkit-scrollbar {

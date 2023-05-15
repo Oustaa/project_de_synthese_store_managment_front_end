@@ -4,6 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../features/products-slice";
 import Loader from "../components/Loader";
 import { BsDashLg } from "react-icons/bs";
+import styled from "styled-components";
+
+const StyledHader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1 {
+    color: var(--primary);
+  }
+  padding-bottom: var(--spacing-lg);
+  select {
+    border: none;
+    font-size: 1.1rem;
+  }
+`;
 
 const tableHeaders = {
   Image: { type: "image", value: "images" },
@@ -24,6 +39,9 @@ const tableHeaders = {
   },
   Price: {
     value: "price",
+  },
+  "Stock Quantity": {
+    value: "stock_Quantity",
   },
   "Added At": { type: "date", value: "inserted_at" },
   Views: { value: "views" },
@@ -58,7 +76,14 @@ const Products = () => {
 
   return (
     <>
-      <Table headers={tableHeaders} data={products} />
+      <StyledHader>
+        <h1>Products</h1>
+      </StyledHader>
+      <Table
+        emptyMessage="There is no product, try adding one now..."
+        headers={tableHeaders}
+        data={products}
+      />
     </>
   );
 };

@@ -15,8 +15,9 @@ const StyledBigImage = styled.div`
   align-items: center;
   justify-content: center;
   img {
-    object-fit: cover;
-    max-width: 100%;
+    object-fit: contain;
+    width: 100%;
+    aspect-ratio: 1 / 0.8;
   }
 `;
 
@@ -25,6 +26,7 @@ const StyledImages = styled.div`
   grid-template-columns: repeat(5, 1fr);
   gap: var(--spacing-sm);
   border-radius: var(--radius-lg);
+
   div {
     position: relative;
     width: 100%;
@@ -33,9 +35,17 @@ const StyledImages = styled.div`
     align-items: center;
     justify-content: center;
     padding: var(--spacing-sm);
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      aspect-ratio: 1 / 0.8;
+    }
+
     &:hover {
       cursor: pointer;
     }
+
     &.selected {
       border-bottom: 1px solid var(--dark-700);
     }

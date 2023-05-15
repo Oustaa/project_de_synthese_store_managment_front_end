@@ -150,14 +150,15 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
         />
       </StyledInputGroup>
       <StyledLineBreak />
-      <ExtandedSection title="Abouts">
-        <About data={productInfo} changeHandler={changeHandler} />
-      </ExtandedSection>
-      <StyledLineBreak />
       <ExtandedSection title="Specifications">
         <AddSpecification changeHandler={changeHandler} data={productInfo} />
       </ExtandedSection>
       <StyledLineBreak />
+      <ExtandedSection title="Abouts">
+        <About data={productInfo} changeHandler={changeHandler} />
+      </ExtandedSection>
+      <StyledLineBreak />
+
       <StyledButton>Create Product</StyledButton>
     </StyledFrom>
   );

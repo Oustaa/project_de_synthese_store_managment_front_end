@@ -10,7 +10,7 @@ export const getProducts = createAsyncThunk("get/products", async () => {
       },
     }
   );
-  console.log(await response.data);
+
   return await response.data;
 });
 
@@ -24,6 +24,12 @@ const productsSlice = createSlice({
     },
     deleteProduct: (state, { payload }) => {
       state.value = state.value.filter(({ _id }) => _id !== payload);
+    },
+    updateProduct: (state, { payload }) => {
+      state.value = state.value.map((product) => {
+        if (payload._id === product._id) return payload;
+        return product;
+      });
     },
   },
   extraReducers: (builder) => {
@@ -44,4 +50,5 @@ const productsSlice = createSlice({
 
 export default productsSlice.reducer;
 
-export const { insertProduct, deleteProduct } = productsSlice.actions;
+export const { insertProduct, deleteProduct, updateProduct } =
+  productsSlice.actions;

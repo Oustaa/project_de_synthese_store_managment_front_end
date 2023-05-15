@@ -129,7 +129,7 @@ const CreateStore = () => {
       );
 
       const responseData = await respons.data;
-
+      console.log(responseData);
       if (responseData.token && responseData.name) {
         dispatch(login(responseData));
         navigate(`/login`);

@@ -11,6 +11,7 @@ import Setting from "./pages/Setting/Setting";
 import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditProduct from "./pages/Edit";
+import Questions from "./pages/Questions";
 
 import GlobalStyles from "./styles/globalStyles";
 
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="products" element={<Products />} />
               <Route path="products/edit/:id" element={<EditProduct />} />
               <Route path="orders" element={<Orders />} />
+              <Route path="questions" element={<Questions />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="create/product" element={<CreateProduct />} />
             </Route>

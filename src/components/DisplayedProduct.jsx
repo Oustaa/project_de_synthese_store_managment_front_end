@@ -81,7 +81,7 @@ const DisplayedProduct = ({ data }) => {
           </FlexContainer>
         </StyledInputGroup>
       </Alert>
-      <StyledProductDisplay colSpan="9">
+      <StyledProductDisplay colSpan="10">
         <FlexContainer>
           <StyledButton bgColor="var(--warning)">
             <Link to={`/products/edit/${data._id}`}>Edit Product</Link>

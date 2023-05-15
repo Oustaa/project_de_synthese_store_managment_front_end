@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const StyledOverViews = styled.div`
@@ -21,28 +22,30 @@ const StyledOverView = styled.div`
     justify-content: center;
     span {
       font-size: 2.4rem;
-      color: var(--dark-700);
+      color: var(--primary);
       margin-left: var(--spacing-xl);
     }
   }
 `;
 
 const OverView = () => {
+  const store = useSelector((state) => state.store.store);
   return (
     <StyledOverViews>
       <StyledOverView>
         <h3>
-          Views <span>56</span>
+          Views <span>{store.views}</span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          Visits <span>34</span>
+          Visits <span>{Number(store.visits)}</span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          View / Visit Ratio <span>0.61</span>
+          View / Visit Ratio
+          <span>{Number(store.views / store.views) || "0.0"} </span>
         </h3>
       </StyledOverView>
       <StyledOverView>

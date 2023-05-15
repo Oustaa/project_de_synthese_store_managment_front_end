@@ -11,20 +11,10 @@ import {
   StyledTableHead,
 } from "../../styles/styled-table";
 import { StyledButton } from "../../styles/";
-import Alert from "../Alert";
-const Table = ({
-  headers,
-  data,
-  componentName,
-  id_name,
-  endPoint,
-  deletable,
-}) => {
-  const [productId, setProductId] = useState(null);
 
+const Table = ({ headers, data, emptyMessage }) => {
   return (
     <>
-      <Alert></Alert>
       <StyledTableConainers>
         <StyledTableHead>
           <div>
@@ -33,14 +23,14 @@ const Table = ({
             </StyledButton>
           </div>
         </StyledTableHead>
-        <StyledTable>
-          <TableHeader headers={headers} />
-          <TableBody
-            data={data}
-            headers={headers}
-            setProductId={setProductId}
-          />
-        </StyledTable>
+        {data.length > 0 ? (
+          <StyledTable>
+            <TableHeader headers={headers} />
+            <TableBody data={data} headers={headers} />
+          </StyledTable>
+        ) : (
+          emptyMessage
+        )}
       </StyledTableConainers>
     </>
   );

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import OverView from "./OverView";
 import Header from "./Header";
+import Info from "./Info";
 
 const Store = () => {
   const [store, setStore] = useState({});
@@ -13,6 +14,7 @@ const Store = () => {
     <>
       <Header />
       <OverView />
+      <Info />
     </>
   );
 };

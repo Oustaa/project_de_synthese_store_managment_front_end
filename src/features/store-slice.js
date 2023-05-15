@@ -50,6 +50,12 @@ const storeSlice = createSlice({
     updateStore: (state, { payload }) => {
       state.store = payload;
     },
+    deleteQuestion: (state, { payload }) => {
+      const questions = state.store.questions.filter(
+        (question) => question._id !== payload
+      );
+      state.store = { ...state.store, questions };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -79,6 +85,6 @@ const storeSlice = createSlice({
   },
 });
 
-export const { updateStore } = storeSlice.actions;
+export const { updateStore, deleteQuestion } = storeSlice.actions;
 
 export default storeSlice.reducer;

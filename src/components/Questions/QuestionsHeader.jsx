@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { StyledInputGroup } from "../../styles";
+
 const StyledHader = styled.div`
   display: flex;
   align-items: center;
@@ -8,25 +9,26 @@ const StyledHader = styled.div`
   h1 {
     color: var(--primary);
   }
-
   padding-bottom: var(--spacing-lg);
   select {
     border: none;
     font-size: 1.1rem;
   }
 `;
-const Header = () => {
+
+const QuestionsHeader = ({ setQuestionsType, questionsType }) => {
+  const changeHandler = (e) => {
+    setQuestionsType(e.target.value);
+  };
+
   return (
     <StyledHader>
-      <h1>Dashboard</h1>
+      <h1>Questions</h1>
       <form>
         <StyledInputGroup mg="none">
-          <select name="" id="">
-            <option value="">Last 7 Days</option>
-            <option value="">Last Month</option>
-            <option value="">Last 3 Months</option>
-            <option value="">Last 6 Months</option>
-            <option value="">Last Year</option>
+          <select name="" id="" value={questionsType} onChange={changeHandler}>
+            <option value="notAnswered">Not answered</option>
+            <option value="answered">Answered</option>
           </select>
         </StyledInputGroup>
       </form>
@@ -34,4 +36,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default QuestionsHeader;

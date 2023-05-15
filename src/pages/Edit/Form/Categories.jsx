@@ -15,7 +15,6 @@ async function setOptionsHandler(data, cb) {
       });
     });
   });
-  console.log(data);
   cb(test);
 }
 
@@ -42,6 +41,7 @@ const Styles = {
 };
 
 const Categories = ({ changeHandler, data }) => {
+  const [selectedCat, setSelectedCat] = useState([]);
   const categories = useSelector((state) => state.store.categories);
   const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
@@ -49,8 +49,28 @@ const Categories = ({ changeHandler, data }) => {
   useEffect(() => {
     if (categories.length === 0) dispatch(getCategories());
     setOptionsHandler(categories, setOptions);
-    console.log(data);
+
+    setSelectedCat(
+      data.subcategories_id.map((subCat) => {
+        for (var category of categories) {
+          for (var sub of Object.values(category)[3]) {
+            if (Object.values(sub)[0] === subCat) {
+              return {
+                value: {
+                  susubcategory_id: subCat,
+                  category_id: category._id,
+                },
+                label: subCat,
+              };
+            }
+          }
+        }
+      })
+    );
   }, []);
+  useEffect(() => {
+    console.log(selectedCat);
+  }, [selectedCat]);
 
   const handelChange = (eventValue) => {
     changeHandler({
@@ -59,6 +79,7 @@ const Categories = ({ changeHandler, data }) => {
         value: eventValue.map((elem) => elem.value.category_id),
       },
     });
+
     changeHandler({
       target: {
         name: "subcategories_id",
@@ -69,19 +90,21 @@ const Categories = ({ changeHandler, data }) => {
 
   return (
     <StyledInputGroup>
-      <label htmlFor="category">
-        <h4>Category:</h4>
-      </label>
-      <Select
-        onChange={handelChange}
-        defaultValue={data.subcategories_id.map((category) => {
-          return { value: category, label: category };
-        })}
-        closeMenuOnSelect={false}
-        isMulti
-        options={options}
-        styles={Styles}
-      />
+      {selectedCat.length && (
+        <>
+          <label htmlFor="category">
+            <h4>Category:</h4>
+          </label>
+          <Select
+            onChange={handelChange}
+            defaultValue={selectedCat}
+            closeMenuOnSelect={false}
+            isMulti
+            options={options}
+            styles={Styles}
+          />
+        </>
+      )}
     </StyledInputGroup>
   );
 };

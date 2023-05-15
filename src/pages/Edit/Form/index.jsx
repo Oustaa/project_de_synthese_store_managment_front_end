@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { insertProduct } from "../../../features/products-slice";
+import { updateProduct } from "../../../features/products-slice";
 import { StyledButton, StyledInputGroup } from "../../../styles";
 import About from "./About";
 import Categories from "./Categories";
@@ -36,7 +36,7 @@ const StyledLineBreak = styled.hr`
   margin-block: var(--spacing-xl);
 `;
 
-const Form = ({ productInfo, setProductInfo, setImages, images }) => {
+const Form = ({ productInfo, setProductInfo, setImages, images, id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const storeInfo = useSelector((state) => state.store.store);
@@ -56,19 +56,19 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      data.append("images[]", images[i]);
-    }
-    data.append("currency", storeInfo.currency);
+    // const data = new FormData();
+    // for (let i = 0; i < images.length; i++) {
+    //   // data.append("images[]", images[i]);
+    // }
+    // data.append("currency", storeInfo.currency);
 
-    for (let field in productInfo) {
-      data.append(field, JSON.stringify(productInfo[field]));
-    }
+    // for (let field in productInfo) {
+    //   data.append(field, JSON.stringify(productInfo[field]));
+    // }
 
-    const response = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/products`,
-      data,
+    const response = await axios.put(
+      `${process.env.REACT_APP_BASE_URL}/products/${id}`,
+      productInfo,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -80,8 +80,11 @@ const Form = ({ productInfo, setProductInfo, setImages, images }) => {
       }
     );
 
-    const responseData = await response.data;
-    dispatch(insertProduct(responseData));
+    const { acknowledged, modifiedCount } = await response.data;
+
+    if (acknowledged && modifiedCount) {
+      dispatch(updateProduct(productInfo));
+    }
     navigate("/products");
   };
 

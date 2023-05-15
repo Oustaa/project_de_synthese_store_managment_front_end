@@ -39,7 +39,7 @@ export const StyledButton = styled.button`
 
 export const StyledInputGroup = styled.div`
   width: 100%;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: ${({ mg }) => mg || "var(--spacing-lg)"};
 
   label {
     margin-bottom: var(--spacing-sm);
@@ -53,9 +53,10 @@ export const StyledInputGroup = styled.div`
     padding: var(--spacing-sm);
     border: 1px solid var(--dark-300);
     border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: ${({ mg }) => mg || "var(--spacing-lg)"};
   }
   textarea {
+    height: auto;
     resize: none;
   }
   &.invalid {

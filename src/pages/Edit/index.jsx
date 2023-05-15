@@ -41,7 +41,11 @@ const CreateProduct = () => {
         <Loader />
       ) : (
         <>
-          <Form productInfo={productInfo} setProductInfo={setProductInfo} />
+          <Form
+            productInfo={productInfo}
+            setProductInfo={setProductInfo}
+            id={id}
+          />
           <ProductOverView
             images={productInfo.images}
             productInfo={productInfo}

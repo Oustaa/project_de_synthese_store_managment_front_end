@@ -14,9 +14,11 @@ const StyledBigImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   img {
-    object-fit: cover;
-    max-width: 100%;
+    object-fit: contain;
+    width: 100%;
+    aspect-ratio: 1 / 0.8;
   }
 `;
 
@@ -33,6 +35,11 @@ const StyledImages = styled.div`
     align-items: center;
     justify-content: center;
     padding: var(--spacing-sm);
+    img {
+      object-fit: contain;
+      width: 100%;
+      aspect-ratio: 1 / 0.8;
+    }
     &:hover {
       cursor: pointer;
     }
@@ -81,7 +88,6 @@ const Images = ({ images, setImages }) => {
         return `${process.env.REACT_APP_BASE_URL}/images/${storename}/products/${image}`;
       })
     );
-    console.log(images);
   }, [images]);
 
   const deleteImage = (id) => {
@@ -103,9 +109,9 @@ const Images = ({ images, setImages }) => {
                 key={i}
                 onClick={() => setDisplayedImage(i)}
               >
-                <button onClick={() => deleteImage(i)}>
+                {/* <button onClick={() => deleteImage(i)}>
                   <BsXCircle />
-                </button>
+                </button> */}
 
                 <img crossOrigin="anynomos" src={imgUrl} alt="" />
               </div>

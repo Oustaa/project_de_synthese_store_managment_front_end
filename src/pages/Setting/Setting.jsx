@@ -114,7 +114,7 @@ const Setting = () => {
     try {
       // sent a request put to stores end point
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/auth/confirm/pass`,
+        `${process.env.REACT_APP_BASE_URL}/auth/stores/confirm/pass`,
         {
           method: "POST",
           body: JSON.stringify({ password: password.value }),

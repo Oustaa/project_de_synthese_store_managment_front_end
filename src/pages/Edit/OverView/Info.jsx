@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FlexContainer } from "../../../styles";
 import { BsStarFill } from "react-icons/bs";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 const StyledInfoContainer = styled.div`
   width: 50%;
@@ -76,7 +77,7 @@ const Info = ({ productInfo, storeInfo }) => {
       <hr />
       <h2 className="price">
         {productInfo.price
-          ? productInfo.price + " " + storeInfo.currency
+          ? getSymbolFromCurrency(storeInfo.currency) + productInfo.price
           : "Product Price"}
       </h2>
 

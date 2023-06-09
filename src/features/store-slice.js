@@ -38,11 +38,25 @@ export const getCategories = createAsyncThunk(
   }
 );
 
+export const getOrders = createAsyncThunk("get/store/orders", async () => {
+  const resp = await axios.get(
+    `${process.env.REACT_APP_BASE_URL}/orders/store`,
+    {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    }
+  );
+  console.log(resp.data);
+  return resp.data;
+});
+
 const storeSlice = createSlice({
   name: "store",
   initialState: {
     loading: false,
     store: {},
+    orders: [],
     products: [],
     categories: [],
   },
@@ -79,6 +93,18 @@ const storeSlice = createSlice({
         state.categories = payload;
       })
       .addCase(getCategories.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error;
+      });
+    builder
+      .addCase(getOrders.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getOrders.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.orders = payload;
+      })
+      .addCase(getOrders.rejected, (state, { error }) => {
         state.loading = false;
         state.error = error;
       });

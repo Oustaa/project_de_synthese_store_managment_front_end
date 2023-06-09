@@ -50,7 +50,8 @@ const tableHeaders = {
     checked: true,
     check: (data) => {
       const vvRasio = data.views / data.visits;
-      if (vvRasio) return vvRasio;
+      if (vvRasio === Infinity) return <BsDashLg />;
+      else if (vvRasio) return vvRasio.toFixed(2);
       return 0;
     },
   },

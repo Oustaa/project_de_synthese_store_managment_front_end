@@ -29,33 +29,52 @@ const StyledOverView = styled.div`
 `;
 
 const OverView = () => {
-  const store = useSelector((state) => state.store.store);
+  const { store, orders } = useSelector((state) => state.store);
+  const { value: products } = useSelector((state) => state.products);
+
   return (
     <StyledOverViews>
       <StyledOverView>
         <h3>
-          Views <span>{store.views}</span>
+          Store's Visits <span>{Number(store.visits)}</span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          Visits <span>{Number(store.visits)}</span>
+          Products Views
+          <span>{products.reduce((value, item) => value + item.views, 0)}</span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          View / Visit Ratio
-          <span>{Number(store.views / store.views) || "0.0"} </span>
+          Products Visits
+          <span>
+            {products.reduce((value, item) => value + item.visits, 0)}
+          </span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          Orders <span>23</span>
+          Orders <span>{orders.length}</span>
         </h3>
       </StyledOverView>
       <StyledOverView>
         <h3>
-          Revenu <span>390$</span>
+          Revenu
+          <span>
+            $
+            {orders
+              .reduce((value, order) => {
+                return (
+                  value +
+                  order.items.reduce(
+                    (prev, item) => prev + item.price * item.qte,
+                    0
+                  )
+                );
+              }, 0)
+              .toFixed(2)}
+          </span>
         </h3>
       </StyledOverView>
     </StyledOverViews>

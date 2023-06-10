@@ -7,7 +7,6 @@ const Loader = ({ height }) => {
   return (
     <StyledLoader height={height}>
       <ClipLoader size={120} color={"var(--primary)"} />
-      <p>Loading....</p>
     </StyledLoader>
   );
 };

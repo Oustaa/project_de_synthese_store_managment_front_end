@@ -5,27 +5,26 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 
 // styled components
-import {
-  StyledTableConainers,
-  StyledTable,
-  StyledTableHead,
-} from "../../styles/styled-table";
-import { StyledButton } from "../../styles/";
+import { StyledTableConainers, StyledTable } from "../../styles/styled-table";
 
-const Table = ({ headers, data, emptyMessage }) => {
+const Table = ({
+  TableHead,
+  headers,
+  data,
+  emptyMessage,
+  displayedComponentOnclick,
+}) => {
   return (
     <StyledTableConainers>
-      <StyledTableHead>
-        <div>
-          <StyledButton color="var(--white)" bgColor="var(--primary)">
-            <Link to={"/create/product"}>Add Product</Link>
-          </StyledButton>
-        </div>
-      </StyledTableHead>
+      {TableHead}
       {data.length > 0 ? (
         <StyledTable>
           <TableHeader headers={headers} />
-          <TableBody data={data} headers={headers} />
+          <TableBody
+            displayedComponentOnclick={displayedComponentOnclick}
+            data={data}
+            headers={headers}
+          />
         </StyledTable>
       ) : (
         emptyMessage

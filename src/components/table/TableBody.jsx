@@ -3,7 +3,14 @@ import React from "react";
 import TableRow from "./TableRow";
 import { StyledTableBody } from "../../styles/styled-table";
 
-const TableBody = ({ data, headers, endPoint, deletable, name }) => {
+const TableBody = ({
+  data,
+  headers,
+  endPoint,
+  deletable,
+  name,
+  displayedComponentOnclick,
+}) => {
   const fields = Object.values(headers).filter((field) => {
     return typeof field !== "function";
   });
@@ -20,6 +27,7 @@ const TableBody = ({ data, headers, endPoint, deletable, name }) => {
             data={data}
             fields={fields}
             name={name}
+            displayedComponentOnclick={displayedComponentOnclick}
           />
         );
       })}

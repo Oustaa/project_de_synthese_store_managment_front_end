@@ -3,15 +3,13 @@ import { StyledTr, StyledTd } from "../../styles/styled-table";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import DisplayedProduct from "../DisplayedProduct";
-
 const StyledImage = styled.img`
   width: 100px;
   aspect-ratio: 1 / 0.8;
   object-fit: contain;
 `;
 
-const TableRow = ({ data, fields, id }) => {
+const TableRow = ({ data, fields, displayedComponentOnclick }) => {
   const { name } = useSelector((state) => state.store.store);
   const [showDetailed, setShowDetailed] = useState(false);
   const displayedValues = fields.map((field, i) => {
@@ -58,10 +56,8 @@ const TableRow = ({ data, fields, id }) => {
   return (
     <>
       <StyledTr onClick={handelClick}>{displayedValues}</StyledTr>
-      {showDetailed && (
-        <tr>
-          <DisplayedProduct data={data} />
-        </tr>
+      {showDetailed && displayedComponentOnclick && (
+        <tr>{displayedComponentOnclick(data)}</tr>
       )}
     </>
   );

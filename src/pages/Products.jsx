@@ -5,6 +5,10 @@ import { getProducts } from "../features/products-slice";
 import Loader from "../components/Loader";
 import { BsDashLg } from "react-icons/bs";
 import styled from "styled-components";
+import DisplayedProduct from "../components/DisplayedProduct";
+import { StyledButton } from "../styles";
+import { StyledTableHead } from "../styles/styled-table";
+import { Link } from "react-router-dom";
 
 const StyledHader = styled.div`
   display: flex;
@@ -63,6 +67,16 @@ const tableHeaders = {
   },
 };
 
+const TableHead = () => (
+  <StyledTableHead>
+    <div>
+      <StyledButton color="var(--white)" bgColor="var(--primary)">
+        <Link to={"/create/product"}>Add Product</Link>
+      </StyledButton>
+    </div>
+  </StyledTableHead>
+);
+
 const Products = () => {
   const dispatch = useDispatch();
   const { value: products, loading } = useSelector((state) => state.products);
@@ -81,9 +95,11 @@ const Products = () => {
         <h1>Products</h1>
       </StyledHader>
       <Table
+        TableHead={<TableHead />}
         emptyMessage="There is no product, try adding one now..."
         headers={tableHeaders}
         data={products}
+        displayedComponentOnclick={(data) => <DisplayedProduct data={data} />}
       />
     </>
   );

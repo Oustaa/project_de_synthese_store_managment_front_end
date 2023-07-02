@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../features/products-slice";
+import { getOrders } from "../../features/store-slice";
+import { useEffect } from "react";
 
 const StyledInfoContainer = styled.div`
   padding-block: var(--spacing-xxl);
@@ -39,26 +43,35 @@ const StyledInfoBody = styled.div`
 `;
 
 const Info = () => {
+  const dispatch = useDispatch();
+  const { value: products } = useSelector((state) => state.products);
+  const { orders } = useSelector((state) => state.store);
+
+  useEffect(() => {
+    if (orders.length === 0) dispatch(getOrders());
+    if (products.length === 0) dispatch(getProducts());
+  }, []);
+
   return (
     <StyledInfoContainer>
       <StyledInfo>
         <StyledInfoHeader>
           <h2>Products</h2>
-          <Link to={"/orders"}>Read more...</Link>
+          <Link to={"/products"}>More...</Link>
         </StyledInfoHeader>
         <StyledInfoBody>no order yet....</StyledInfoBody>
       </StyledInfo>
       <StyledInfo>
         <StyledInfoHeader>
           <h2>Orders</h2>
-          <Link to={"/orders"}>Read more...</Link>
+          <Link to={"/orders"}>More...</Link>
         </StyledInfoHeader>
         <StyledInfoBody>no order yet....</StyledInfoBody>
       </StyledInfo>
       <StyledInfo>
         <StyledInfoHeader>
           <h2>Questions</h2>
-          <Link to={"/questions"}>Read more...</Link>
+          <Link to={"/questions"}>More...</Link>
         </StyledInfoHeader>
         <StyledInfoBody>no questions yet....</StyledInfoBody>
       </StyledInfo>

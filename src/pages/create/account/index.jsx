@@ -4,7 +4,9 @@ import { login } from "../../../features/auth-slice";
 import styled from "styled-components";
 import StoreName from "./StoreName";
 import StoreEmail from "./StoreEmail";
+import StoreVerifyEmail from "./StoreVerifyEmail";
 import StorePhone from "./StorePhone";
+import StoreVerifyPhone from "./StoreVerifyPhone";
 import StorePassword from "./StorePassword";
 import { useNavigate, Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
@@ -37,8 +39,22 @@ const StyledCreateBody = styled.div`
   }
 `;
 
-const Components = [StoreName, StoreEmail, StorePhone, StorePassword];
-const titles = ["Name", "Email", "Phone number", "Password"];
+const Components = [
+  StoreName,
+  StoreEmail,
+  StoreVerifyEmail,
+  StorePhone,
+  StoreVerifyPhone,
+  StorePassword,
+];
+const titles = [
+  "Name",
+  "Email",
+  "Verify Your Email",
+  "Phone number",
+  "Verify Your Phone",
+  "Password",
+];
 
 const CreateStore = () => {
   const dispatch = useDispatch();
@@ -59,6 +75,7 @@ const CreateStore = () => {
   const [error, setError] = useState(false);
 
   let { token, name } = useSelector((state) => state.auth);
+
   if (!token && !name) {
     token = localStorage.getItem("token");
     name = localStorage.getItem("storename");
@@ -68,6 +85,7 @@ const CreateStore = () => {
 
   const nextHandler = () => {
     if (!canContinue) return;
+
     setStep((prev) => (prev += 1));
     setCanContinue(false);
   };
@@ -82,6 +100,10 @@ const CreateStore = () => {
     setStoreData((prev) => {
       return { ...prev, [name]: e.target.value };
     });
+  };
+
+  const nextStep = (can, cb) => {
+    setCanContinue(can);
   };
 
   const imageChnageHandler = (e) => {
@@ -105,9 +127,11 @@ const CreateStore = () => {
       );
 
       const data = await response.data;
-
-      if (!data.conflect) nextHandler();
+      if (!data.conflect) {
+        nextHandler();
+      }
     } catch (error) {
+      console.log(error);
       setError(true);
     } finally {
       setLoading(false);
@@ -167,13 +191,13 @@ const CreateStore = () => {
           />
         }
       </StyledCreateBody>
-      <StyledCreationHeaderFooter end={step === 0}>
+      <StyledCreationHeaderFooter end={step === 0 ? "end" : ""}>
         {step !== 0 && (
           <StyledButton onClick={prevHandler} bgColor="var(--dark-500)">
             Prev
           </StyledButton>
         )}
-        {step === 3 ? (
+        {step === 5 ? (
           <form encType="multipart/form-data" onSubmit={createStore}>
             <StyledButton type="submit">Create</StyledButton>
           </form>

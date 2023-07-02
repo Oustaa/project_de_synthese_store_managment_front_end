@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../features/auth-slice";
 import { useNavigate, Link } from "react-router-dom";
 import {
   StyledInputGroup,
   StyledContainer,
   StyledButton,
-} from "../styles/index";
+  FlexContainer,
+} from "../styles";
 import { ClipLoader } from "react-spinners";
+
+const StyledLogInImgContainer = styled.form`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const StyledLogInPage = styled.div`
   display: flex;
@@ -53,8 +61,6 @@ const LogIn = () => {
     });
   };
 
-  useEffect(() => {}, []);
-
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,6 +95,18 @@ const LogIn = () => {
     }
   };
 
+  async function demoLogInHandler() {
+    const respons = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/auth/stores/login/demo`
+    );
+
+    const data = await respons.data;
+    console.log(data);
+    localStorage.setItem("token", data.accessToken);
+    dispatch(login({ token: data.accessToken }));
+    return navigate("/");
+  }
+
   useEffect(() => {
     dispatch(login({ token }));
     if (token) navigate("/");
@@ -122,15 +140,30 @@ const LogIn = () => {
               onChange={changehandler}
             />
           </StyledInputGroup>
-          <StyledButton>
-            {!loading ? (
-              "Log In"
-            ) : (
-              <ClipLoader color="var(--white)" size={20} />
-            )}
-          </StyledButton>
+          <FlexContainer>
+            <StyledButton>
+              {!loading ? (
+                "Log In"
+              ) : (
+                <ClipLoader color="var(--white)" size={20} />
+              )}
+            </StyledButton>
+            <StyledButton onClick={demoLogInHandler} type="button">
+              {!loading ? (
+                "Try Demo"
+              ) : (
+                <ClipLoader color="var(--white)" size={20} />
+              )}
+            </StyledButton>
+          </FlexContainer>
           <Link to="/create">Ou create a store</Link>
         </StyledForm>
+        <StyledLogInImgContainer>
+          <img
+            src="./images/undraw_sign_up_n6im.svg"
+            alt="undraw_sign_up_n6im.svg"
+          />
+        </StyledLogInImgContainer>
       </StyledLogInPage>
     </StyledContainer>
   );

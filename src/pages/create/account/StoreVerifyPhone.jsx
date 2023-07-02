@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function sendMSG(phone, secretXKey, errorHandler, successHandler) {
-  console.log(phone, secretXKey);
   const options = {
     method: "POST",
     url: "https://wipple-sms-verify-otp.p.rapidapi.com/send",
@@ -14,9 +13,13 @@ function sendMSG(phone, secretXKey, errorHandler, successHandler) {
       "X-RapidAPI-Key": secretXKey,
       "X-RapidAPI-Host": "wipple-sms-verify-otp.p.rapidapi.com",
     },
-    data: `
-    {"app_name":"Domain.com","code_length":6,"code_type":"number","expiration_second":86000,"phone_number":${phone}}
-    `,
+    data: JSON.stringify({
+      app_name: "Domain.com",
+      code_length: 6,
+      code_type: "number",
+      expiration_second: 86000,
+      phone_number: "0641679994",
+    }),
   };
 
   axios
@@ -67,11 +70,10 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
   const [phone, setPhone] = useState("");
   const [codeSend, setCodeSent] = useState(false);
   const [code, setCode] = useState(false);
-  const [error, setError] = useState("");
 
   const handelChange = (e) => {
     changeHandler(e);
-    const regexPhoneNumber = /^\+?\d{10,14}$/;
+    const regexPhoneNumber = /^((\+)33|0)[1-9](\d{2}){4}$/;
 
     if (e.target.value.match(regexPhoneNumber)) {
       setCanContinue(true);
@@ -82,14 +84,16 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
   };
 
   useEffect(() => {
+    const secretXKey = process.env.REACT_APP_RAPID_API_X_KEY;
     if (data.phone_number) setPhone(data.phone_number);
+    sendMSG("0641679994", secretXKey);
   }, []);
 
   return (
-    <>
+    <div>
       <StyledInputGroup>
         <label htmlFor="phone">
-          <h3>Enter Your Phone Number</h3>
+          <h3>Enter Your Phone Number in</h3>
         </label>
         <input
           name="phone_number"
@@ -98,23 +102,8 @@ const StorePhone = ({ setCanContinue, data, changeHandler }) => {
           value={phone}
           onChange={handelChange}
         />
-        <p>E164 format phone number excluding the leading +</p>
       </StyledInputGroup>
-      {codeSend && (
-        <StyledInputGroup>
-          <label htmlFor="phone-conf">
-            <h3>Verify your phone Number</h3>
-          </label>
-          <input
-            name="verifyCode"
-            type="phone"
-            id="phone-conf"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
-        </StyledInputGroup>
-      )}
-    </>
+    </div>
   );
 };
 

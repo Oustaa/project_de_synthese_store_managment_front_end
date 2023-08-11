@@ -76,7 +76,7 @@ const Question = ({ text, product_id, _id, setQuestion }) => {
             crossOrigin="anonymous"
             src={
               productInfo?.images &&
-              `http://localhost:8000/api/images/${store.name}/products/${productInfo?.images[0]}`
+              `${process.env.REACT_APP_BASE_URL}/images/${store.name}/products/${productInfo?.images[0]}`
             }
             alt=""
           />

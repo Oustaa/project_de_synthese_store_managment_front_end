@@ -60,7 +60,7 @@ const Question = ({ question, answer, image, title, price }) => {
             crossOrigin="anonymous"
             src={
               image &&
-              `http://localhost:8000/api/images/${store.name}/products/${image}`
+              `${process.env.REACT_APP_BASE_URL}/images/${store.name}/products/${image}`
             }
             alt=""
           />
